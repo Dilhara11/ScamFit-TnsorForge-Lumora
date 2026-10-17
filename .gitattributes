@@ -1,0 +1,10 @@
+# The model bundle manifest records SHA-256 hashes of these runtime modules as
+# they were sealed (some with CRLF, some with LF). The API refuses to start if
+# the checked-out bytes differ, so pin each file's line endings on every OS.
+training/src/svo/__init__.py      text eol=crlf
+training/src/svo/artifacts.py     text eol=crlf
+training/src/svo/model.py         text eol=crlf
+training/src/svo/monitor.py       text eol=crlf
+training/src/svo/preprocessing.py text eol=crlf
+training/src/svo/data.py          text eol=lf
+training/src/svo/v2.py            text eol=lf
