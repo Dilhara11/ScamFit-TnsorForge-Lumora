@@ -20,3 +20,9 @@ __pycache__/
 # Saved evaluation evidence; other runtime databases remain ignored.
 !/runs/final/benign_replay.sqlite
 !/runs/final/final_replay.sqlite
+
+# v2: encoder weights are ~450 MB (GitHub limit 100 MB). Everything else in the
+# bundle is tracked; app/server/scripts/fetch_model_weights.py restores the weights
+# at the pinned revision and checks them against the manifest.
+/runs/*/candidates/*/bundle/encoder/model.safetensors
+/runs/*/candidates/*/bundle/encoder/**/*.partial

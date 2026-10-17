@@ -1,6 +1,6 @@
 # Scam Variant Observatory API
 
-A separate FastAPI service around the frozen character TF-IDF classifier. It provides predictions, persistent rolling novelty monitoring, a cluster queue, and audited analyst reviews. Training files and model thresholds are unchanged.
+A separate FastAPI service around the frozen v2 model `svo-e2a46f504b19` (`e5_tfidf`: frozen multilingual-E5 embedding + word/character TF-IDF, one Platt-calibrated logistic regression; see `training/RESULTS_V2.md`). It provides predictions, persistent rolling novelty monitoring, a cluster queue, and audited analyst reviews. Training files and model thresholds are unchanged.
 
 ## Run
 
@@ -12,7 +12,7 @@ docker compose up --build -d --wait
 
 The API is at `http://127.0.0.1:8000`; health is `/health/ready`, offline documentation is `/docs`, and the machine-readable contract is `/openapi.json`. The first build downloads a pinned Python image and dependencies; running inference needs no internet. Compose uses host-loopback port publication, a non-root user, and a read-only root filesystem. It uses the standard bridge for host access; inference also passes a separate test with Docker networking disabled. The image contains no training dataset, caches, virtual environment, or evaluation database.
 
-The selected model bundle is included in the repository at `training/runs/final/bundle/` and is copied into the image during the build. A clone containing the bundle needs no retraining or separate model download. Keep the repository and image private while data provenance/licensing remains unresolved. Checksums verify integrity, not who produced the joblib artifact.
+The selected bundle is `training/runs/v2/candidates/e5_tfidf/bundle/` and is copied into the image during the build. Everything in it is in Git except `encoder/model.safetensors` (449 MB; GitHub's file limit is 100 MB). The build restores that file with `scripts/fetch_model_weights.py`, which downloads it from Hugging Face at the revision pinned in the bundle manifest and refuses it unless its SHA-256 matches the manifest, so the image runs the same frozen, evaluated model. **The first build therefore needs internet access**; running inference does not. Outside Docker, run `python app/server/scripts/fetch_model_weights.py` once after cloning. The image needs roughly 1.2 GB of RAM; Compose allows 2 GiB.
 
 If Docker Desktop was just enabled in WSL, confirm `docker version` shows both client and server. If an old custom builder reports a missing WSL bind mount, use `BUILDX_BUILDER=default docker compose up --build -d --wait` or select a working builder with `docker buildx use default`.
 
@@ -69,7 +69,7 @@ Settings can be injected through the environment or a private root `.env` file (
 | `SVO_ALLOWED_ORIGINS` | Empty; comma-separated exact frontend origins |
 | `SVO_QUEUE_CAPACITY` | 32 waiting operations |
 | `SVO_MODEL_DIR` | `/opt/model` in container |
-| `SVO_EXPECTED_MODEL_VERSION` | `svo-38879254a924` |
+| `SVO_EXPECTED_MODEL_VERSION` | `svo-e2a46f504b19` |
 | `SVO_DB_PATH` | `/data/observatory.sqlite` in container |
 
 Clients send `X-API-Key` or `Authorization: Bearer …`. All API and documentation endpoints require credentials in authenticated mode; health remains public. CORS preflight may be unauthenticated, while actual requests require credentials. CORS is disabled unless explicitly configured. No threshold overrides are supported.
@@ -98,6 +98,7 @@ From the repository root:
 ```bash
 python3 -m venv app/server/.venv
 app/server/.venv/bin/python -m pip install -r app/server/requirements-dev.lock
+app/server/.venv/bin/python app/server/scripts/fetch_model_weights.py   # once per clone
 PYTHONPATH=app/server/src:training/src app/server/.venv/bin/python -m pytest app/server/tests -q
 PYTHONPATH=app/server/src:training/src app/server/.venv/bin/python app/server/scripts/verify_runtime.py
 # Local development; bind to loopback explicitly:
@@ -110,8 +111,8 @@ python3 app/server/scripts/benchmark.py
 
 `SVO_API_KEY` supplies a key to the smoke/benchmark scripts for authenticated mode. Tests use temporary databases and include the private shifted replay if supplied. They never retrain, retune thresholds, or rerun held-out model evaluation. Smoke and benchmarks add harmless demonstration events to the service database; use a fresh Compose project/volume for isolated measurements. See `VERIFICATION.md` for measured results and remaining limits.
 
-The API loads resources through FastAPI's [lifespan interface](https://fastapi.tiangolo.com/advanced/events/). All copied `svo` modules must match manifest source hashes before loading the model. API dependencies and the base-image digest are pinned; CPU-only ML versions match the training runtime. `requirements.in` and `requirements-dev.in` describe lock inputs.
+The API loads resources through FastAPI's [lifespan interface](https://fastapi.tiangolo.com/advanced/events/). All copied `svo` modules, plus `v2.py` for v2 representations, must match manifest source hashes before loading the model. Only listed representations are servable; the `tfidf_char_raw` shortcut ablation is refused. Bundles sealed on Windows (backslash manifest paths) are verified with normalised separators. API dependencies and the base-image digest are pinned; CPU-only ML versions, including PyTorch for the E5 encoder, match the training runtime. `requirements.in` and `requirements-dev.in` describe lock inputs.
 
 ## Model limitations
 
-This is an unreviewed mixed-source demonstration. Scores are uncalibrated and Sinhala/Tamil evidence is weak. Held-out high-risk recall is 69.4%, review workload is 100%, and normal replay false-alert windows are 11.1%. No cluster met the candidate rule at the end of the reported replay. `operating_target_met` in the frozen config refers to development selection, not held-out success. No real-world fraud protection, reliable emerging-variant discovery, or workload reduction is claimed. See `training/RESULTS.md` and the model card for full context.
+This is an unreviewed mixed-source demonstration. On held-out data the selected model reaches macro-F1 0.932, but high-risk precision is 83.2%, below the 90% target (recall 98.8%). Legitimate false positives are 9.8% overall, mostly formal synthetic notices; on real SMS they are 1.4%. Scores are Platt-calibrated under a balanced class prior, not at deployment prevalence. The held-out shift replay produced **no drift alert** and no candidate cluster. `operating_target_met` in the frozen config refers to development selection, not held-out success. Masking collapses capitalised words into one entity token, so very short texts can score identically. No real-world fraud protection, reliable emerging-variant discovery, or workload reduction is claimed. See `training/RESULTS_V2.md` and the model card for full context.

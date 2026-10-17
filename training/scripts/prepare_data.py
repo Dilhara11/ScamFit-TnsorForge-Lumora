@@ -46,7 +46,7 @@ def main():
     if output.exists():
         raise ValueError("Refusing to overwrite a prepared dataset; use a new output path")
     rows, seen = [], set()
-    seeds = json.loads(Path(args.seeds).read_text())
+    seeds = json.loads(Path(args.seeds).read_text(encoding="utf-8"))
     for seed in seeds:
         for language, text in seed["texts"].items():
             for variant, prefix in enumerate(("", {"en":"Notice: ", "si":"දැනුම්දීම: ", "ta":"அறிவிப்பு: ",
@@ -139,7 +139,7 @@ def main():
     for index, row in enumerate(normal + novel):
         row["event_index"] = index
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
+    output.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8", newline="\n")
     load_data(output, simulation=True)
     write_json(output.with_suffix(".audit.json"), audit)
     print(json.dumps({"output": str(output), "rows": len(rows), "counts": dict(Counter(r["split"] for r in rows))}))

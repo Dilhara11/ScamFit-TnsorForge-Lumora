@@ -1,0 +1,367 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  SVO API server: one EC2 instance running the ECR image under systemd in
+  authenticated mode, SQLite on a separate encrypted EBS volume with daily
+  snapshots, and a CloudFront distribution that provides the public HTTPS URL.
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: svo
+    Description: Must match the ECR stack's ProjectName (its exported repository URI is imported).
+  EnvName:
+    Type: String
+    Default: prod
+    AllowedPattern: '^[a-z][a-z0-9-]{1,15}$'
+    Description: Names the SSM parameter path /<ProjectName>/<EnvName>/...
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: A public subnet (route to an internet gateway) in VpcId.
+  CloudFrontPrefixListId:
+    Type: String
+    AllowedPattern: '^pl-[0-9a-f]+$'
+    Description: >-
+      ID of the managed prefix list com.amazonaws.global.cloudfront.origin-facing in
+      this region; only CloudFront may reach port 8000.
+  InstanceType:
+    Type: String
+    Default: t3.medium
+    # Nitro types only: the bootstrap finds the data volume by its NVMe ID.
+    AllowedValues: [t3.medium, t3.large, t3a.medium, t3a.large, m6i.large, m7i.large]
+  LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+  ImageTag:
+    Type: String
+    Default: latest
+    Description: ECR tag to run (a 12-character commit SHA pins a build).
+  DataVolumeSize:
+    Type: Number
+    Default: 20
+    MinValue: 8
+  QueueCapacity:
+    Type: Number
+    Default: 32
+    MinValue: 1
+    MaxValue: 1024
+  PriceClass:
+    Type: String
+    Default: PriceClass_100
+    AllowedValues: [PriceClass_100, PriceClass_200, PriceClass_All]
+
+Conditions:
+  IsUsEast1: !Equals [!Ref 'AWS::Region', us-east-1]
+
+Resources:
+  ApiLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/${ProjectName}/${EnvName}/api'
+      RetentionInDays: 30
+
+  ImageTagParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '/${ProjectName}/${EnvName}/image-tag'
+      Type: String
+      Value: !Ref ImageTag
+
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: ec2.amazonaws.com}
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        # Session Manager replaces SSH; no key pair or port 22 is opened.
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      Policies:
+        - PolicyName: runtime
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: [ssm:GetParameter, ssm:GetParameters]
+                Resource: !Sub 'arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ProjectName}/${EnvName}/*'
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub '${ApiLogs.Arn}:*'
+              - Effect: Allow
+                Action: ec2:DescribeVolumes
+                Resource: '*'
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref InstanceRole]
+
+  ApiSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: SVO API - port 8000 from CloudFront only
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8000
+          ToPort: 8000
+          SourcePrefixListId: !Ref CloudFrontPrefixListId
+          Description: CloudFront origin-facing
+
+  ReadyHandle:
+    Type: AWS::CloudFormation::WaitConditionHandle
+
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref LatestAmiId
+        InstanceType: !Ref InstanceType
+        IamInstanceProfile: {Arn: !GetAtt InstanceProfile.Arn}
+        SecurityGroupIds: [!Ref ApiSecurityGroup]
+        MetadataOptions:
+          HttpTokens: required
+          # Hop limit 1 keeps the bridged container away from instance credentials.
+          HttpPutResponseHopLimit: 1
+        BlockDeviceMappings:
+          - DeviceName: /dev/xvda
+            Ebs: {VolumeSize: 30, VolumeType: gp3, Encrypted: true, DeleteOnTermination: true}
+        UserData:
+          Fn::Base64:
+            Fn::Sub:
+              - |
+                #!/bin/bash
+                # Bootstrap: Docker, the data volume, and the svo-api systemd unit.
+                # Use plain $VAR in shell code: dollar-brace is CloudFormation substitution.
+                set -euxo pipefail
+                exec > >(tee -a /var/log/svo-bootstrap.log) 2>&1
+                signal() { /opt/aws/bin/cfn-signal -e "$1" '${ReadyHandle}' || true; }
+                trap 'signal 1' ERR
+                # The Elastic IP is associated moments after launch and drops open connections.
+                retry() { for i in 1 2 3 4 5; do "$@" && return 0; sleep 10; done; return 1; }
+
+                retry dnf install -y docker aws-cfn-bootstrap
+                systemctl enable --now docker
+
+                mkdir -p /etc/svo
+                cat > /etc/svo/svo.conf <<'EOF'
+                REGION=${AWS::Region}
+                REPO_URI=${RepositoryUri}
+                PARAM_PREFIX=/${ProjectName}/${EnvName}
+                LOG_GROUP=${ApiLogs}
+                QUEUE_CAPACITY=${QueueCapacity}
+                EOF
+
+                # The data volume is attached after launch; wait for it by its NVMe serial.
+                TOKEN=$(curl -fsS -X PUT http://169.254.169.254/latest/api/token -H 'X-aws-ec2-metadata-token-ttl-seconds: 300')
+                IID=$(curl -fsS -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/instance-id)
+                DEV=""
+                for i in $(seq 1 90); do
+                  VOL=$(aws ec2 describe-volumes --region ${AWS::Region} --filters Name=attachment.instance-id,Values=$IID Name=attachment.device,Values=/dev/sdf --query 'Volumes[0].VolumeId' --output text || echo None)
+                  CANDIDATE=/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$(echo "$VOL" | tr -d -)
+                  if [ "$VOL" != None ] && [ -e "$CANDIDATE" ]; then DEV=$CANDIDATE; break; fi
+                  sleep 5
+                done
+                [ -n "$DEV" ]
+                # Format only a blank volume: a reattached volume keeps its database.
+                blkid "$DEV" || mkfs.ext4 -L svo-data "$DEV"
+                mkdir -p /srv/svo-data
+                grep -q 'LABEL=svo-data' /etc/fstab || echo 'LABEL=svo-data /srv/svo-data ext4 defaults,nofail 0 2' >> /etc/fstab
+                systemctl daemon-reload
+                mount -a
+                chown 10001:10001 /srv/svo-data
+
+                cat > /usr/local/bin/svo-start <<'EOF'
+                #!/bin/bash
+                # Reads runtime settings from SSM on every start, so a restart applies changes.
+                set -euo pipefail
+                . /etc/svo/svo.conf
+                param() { aws ssm get-parameter --region "$REGION" --name "$PARAM_PREFIX/$1" --with-decryption --query Parameter.Value --output text 2>/dev/null; }
+                TAG=$(param image-tag || echo latest)
+                ORIGINS=$(param allowed-origins || true)
+                CREDS=$(param credentials-json) || { echo "Missing SecureString $PARAM_PREFIX/credentials-json" >&2; exit 1; }
+                # One-line JSON for docker --env-file; the API validates key length and uniqueness.
+                CREDS=$(printf '%s' "$CREDS" | python3 -c 'import json, sys; d = json.load(sys.stdin); assert isinstance(d, dict) and d; print(json.dumps(d))') \
+                  || { echo "credentials-json must be a non-empty JSON object" >&2; exit 1; }
+                umask 077
+                printf 'SVO_MODE=authenticated\nSVO_CREDENTIALS_JSON=%s\nSVO_ALLOWED_ORIGINS=%s\nSVO_QUEUE_CAPACITY=%s\n' \
+                  "$CREDS" "$ORIGINS" "$QUEUE_CAPACITY" > /run/svo/api.env
+                REGISTRY=$(echo "$REPO_URI" | cut -d/ -f1)
+                aws ecr get-login-password --region "$REGION" | docker login --username AWS --password-stdin "$REGISTRY"
+                docker pull "$REPO_URI:$TAG"
+                docker rm -f svo-api 2>/dev/null || true
+                # Same hardening as compose.yaml.
+                exec docker run --name svo-api --rm -p 8000:8000 --env-file /run/svo/api.env \
+                  -v /srv/svo-data:/data --read-only --tmpfs /tmp:size=32m,mode=1777 \
+                  --cap-drop ALL --security-opt no-new-privileges:true --init \
+                  --cpus 2 --memory 2g --stop-timeout 35 \
+                  --log-driver awslogs --log-opt awslogs-region="$REGION" \
+                  --log-opt awslogs-group="$LOG_GROUP" --log-opt awslogs-stream=api \
+                  "$REPO_URI:$TAG"
+                EOF
+                chmod 755 /usr/local/bin/svo-start
+
+                cat > /etc/systemd/system/svo-api.service <<'EOF'
+                [Unit]
+                Description=SVO API container
+                After=docker.service network-online.target
+                Requires=docker.service
+                Wants=network-online.target
+                RequiresMountsFor=/srv/svo-data
+
+                [Service]
+                RuntimeDirectory=svo
+                RuntimeDirectoryMode=0700
+                ExecStart=/usr/local/bin/svo-start
+                ExecStop=/usr/bin/docker stop -t 35 svo-api
+                Restart=always
+                RestartSec=10
+                TimeoutStartSec=600
+                TimeoutStopSec=60
+
+                [Install]
+                WantedBy=multi-user.target
+                EOF
+                systemctl daemon-reload
+                systemctl enable --now svo-api
+
+                # Cold start pulls ~2 GB and loads the encoder; allow 10 minutes.
+                for i in $(seq 1 120); do
+                  if curl -fsS http://127.0.0.1:8000/health/ready; then signal 0; exit 0; fi
+                  sleep 5
+                done
+                journalctl -u svo-api --no-pager | tail -50
+                signal 1
+              - RepositoryUri:
+                  Fn::ImportValue: !Sub '${ProjectName}-api-repository-uri'
+
+  Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: !Ref LaunchTemplate
+        Version: !GetAtt LaunchTemplate.LatestVersionNumber
+      SubnetId: !Ref SubnetId
+      Tags:
+        - {Key: Name, Value: !Sub '${ProjectName}-${EnvName}-api'}
+
+  DataVolume:
+    Type: AWS::EC2::Volume
+    # Holds the SQLite database: snapshot rather than lose it on delete/replace.
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+    Properties:
+      AvailabilityZone: !GetAtt Instance.AvailabilityZone
+      Size: !Ref DataVolumeSize
+      VolumeType: gp3
+      Encrypted: true
+      Tags:
+        - {Key: Name, Value: !Sub '${ProjectName}-${EnvName}-data'}
+        - {Key: svo-backup, Value: !Sub '${ProjectName}-${EnvName}'}
+
+  DataVolumeAttachment:
+    Type: AWS::EC2::VolumeAttachment
+    Properties:
+      InstanceId: !Ref Instance
+      VolumeId: !Ref DataVolume
+      Device: /dev/sdf
+
+  ElasticIp:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref Instance
+
+  # Completes once the bootstrap reports /health/ready (after the volume is attached).
+  Ready:
+    Type: AWS::CloudFormation::WaitCondition
+    DependsOn: [DataVolumeAttachment, ElasticIp]
+    Properties:
+      Handle: !Ref ReadyHandle
+      Timeout: '1800'
+      Count: 1
+
+  SnapshotRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: dlm.amazonaws.com}
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSDataLifecycleManagerServiceRole
+
+  DataSnapshots:
+    Type: AWS::DLM::LifecyclePolicy
+    Properties:
+      Description: !Sub 'Daily snapshots of ${ProjectName}-${EnvName} data volume'
+      State: ENABLED
+      ExecutionRoleArn: !GetAtt SnapshotRole.Arn
+      PolicyDetails:
+        ResourceTypes: [VOLUME]
+        TargetTags:
+          - {Key: svo-backup, Value: !Sub '${ProjectName}-${EnvName}'}
+        Schedules:
+          - Name: daily
+            CreateRule: {Interval: 24, IntervalUnit: HOURS, Times: ['03:00']}
+            RetainRule: {Count: 7}
+            CopyTags: true
+
+  Distribution:
+    Type: AWS::CloudFront::Distribution
+    DependsOn: Ready
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: !Sub '${ProjectName}-${EnvName} API'
+        HttpVersion: http2and3
+        PriceClass: !Ref PriceClass
+        Origins:
+          - Id: api
+            # EC2 public DNS of the Elastic IP (CloudFront origins must be hostnames).
+            DomainName: !If
+              - IsUsEast1
+              - !Sub
+                - 'ec2-${Dashed}.compute-1.amazonaws.com'
+                - Dashed: !Join ['-', !Split ['.', !Ref ElasticIp]]
+              - !Sub
+                - 'ec2-${Dashed}.${AWS::Region}.compute.amazonaws.com'
+                - Dashed: !Join ['-', !Split ['.', !Ref ElasticIp]]
+            CustomOriginConfig:
+              HTTPPort: 8000
+              OriginProtocolPolicy: http-only
+              OriginReadTimeout: 30
+        DefaultCacheBehavior:
+          TargetOriginId: api
+          ViewerProtocolPolicy: https-only
+          AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          # Managed-CachingDisabled and Managed-AllViewerExceptHostHeader.
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
+
+Outputs:
+  ApiUrl:
+    Description: Public HTTPS base URL; pass to the client stack as ApiUrl.
+    Value: !Sub 'https://${Distribution.DomainName}'
+    Export:
+      Name: !Sub '${ProjectName}-${EnvName}-api-url'
+  InstanceId:
+    Value: !Ref Instance
+  DataVolumeId:
+    Value: !Ref DataVolume
+  LogGroup:
+    Value: !Ref ApiLogs
+  RestartCommand:
+    Description: Pull the configured tag and restart (applies new images and SSM changes).
+    Value: !Sub >-
+      aws ssm send-command --instance-ids ${Instance} --document-name AWS-RunShellScript
+      --parameters commands="systemctl restart svo-api"

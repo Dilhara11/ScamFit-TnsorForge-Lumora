@@ -1,4 +1,4 @@
-"""Real HTTP smoke check. Only harmless text; no fixture corpus required."""
+"""Real HTTP smoke check. Only fictional text; no fixture corpus required."""
 import argparse
 import json
 import os
@@ -29,7 +29,9 @@ def run(base, key=None, event_id=None):
     start = time.perf_counter()
     ready = call('/health/ready')
     metadata = call('/api/v1/model')
-    body = {'text': 'The office opens tomorrow.', 'event_id': event_id}
+    # Fictional scam pattern: v2 routes ordinary text to low risk, so a cluster
+    # (needed for the review round-trip) requires a review-routed message.
+    body = {'text': 'Your parcel is held. Pay the release fee at the link today to receive it.', 'event_id': event_id}
     prediction = call('/api/v1/predictions', body)
     assert call('/api/v1/predictions', body) == prediction
     assert prediction['model_version'] == ready['model_version'] == metadata['model_version']

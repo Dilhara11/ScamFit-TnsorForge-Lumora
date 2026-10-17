@@ -1,0 +1,14 @@
+{
+  "base": "training/data/processed/messages.jsonl",
+  "base_sha256": "0c5089cc88f1bafdc40515644f19405c86bc0fd46500ef371f1be6494052fea8",
+  "uci_sha256": "7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d",
+  "uci_ham_rows": 4827,
+  "admitted": 1000,
+  "admitted_groups": 993,
+  "rejected": {
+    "length": 18,
+    "duplicate_template": 22
+  },
+  "label_meaning": "UCI ham = ordinary personal SMS; not bank/service notifications",
+  "residual_confound": "Real legitimate SMS are informal chat; formal legitimate notices remain synthetic only"
+}

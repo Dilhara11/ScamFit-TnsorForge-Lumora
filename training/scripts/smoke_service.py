@@ -24,7 +24,7 @@ def main():
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
     runtime = Runtime(args.bundle)
-    development = [json.loads(line) for line in Path(args.data).read_text().splitlines()
+    development = [json.loads(line) for line in Path(args.data).read_text(encoding="utf-8").splitlines()
                    if json.loads(line)["split"] == "val_select"]
     # Verify real language/batch parity without recording text in test evidence.
     fixtures = [next(r for r in development if r["language"] == language)

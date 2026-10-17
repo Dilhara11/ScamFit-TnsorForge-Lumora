@@ -5,25 +5,25 @@ import sqlite3
 import threading
 import pytest
 from fastapi.testclient import TestClient
-from svo.model import Runtime
+from conftest import REVIEW_TEXT
 from svo_api.main import create_app
 from svo_api.schemas import PredictionRequest, ReviewRequest
 from svo_api.services.monitoring import DurableMonitor
-from svo_api.services.engine import Engine
+from svo_api.services.engine import Engine, load_runtime
 from svo_api.errors import APIError
 
 
 def test_concurrent_idempotency_and_restart(settings):
     app = create_app(settings)
     with TestClient(app) as c:
-        body = {'text':'The office opens tomorrow.', 'event_id':'duplicate'}
+        body = {'text':REVIEW_TEXT, 'event_id':'duplicate'}
         with ThreadPoolExecutor(max_workers=8) as pool:
             results = list(pool.map(lambda _: c.post('/api/v1/predictions', json=body), range(8)))
         assert all(r.status_code == 200 for r in results)
         assert all(r.json() == results[0].json() for r in results)
         assert c.get('/api/v1/monitoring').json()['event_count'] == 1
         assert c.post('/api/v1/predictions',json={**body,'text':'Different.'}).status_code == 409
-        assert c.post('/api/v1/predictions',json={**body,'text':'  The office   opens tomorrow. '}).status_code == 200
+        assert c.post('/api/v1/predictions',json={**body,'text':'  ' + REVIEW_TEXT.replace(' ', '   ', 1) + ' '}).status_code == 200
         cid = results[0].json()['cluster_id_or_null']
         review = {'review_id':'review1','status':'rejected','actor':'demo'}
         first = c.post(f'/api/v1/clusters/{cid}/reviews',json=review).json()
@@ -39,14 +39,14 @@ def test_concurrent_idempotency_and_restart(settings):
 
 
 def test_rollback_and_backup(settings, tmp_path):
-    monitor = DurableMonitor(Runtime(settings.model_dir), settings)
+    monitor = DurableMonitor(load_runtime(settings)[0], settings)
     try:
         monitor.db.execute("CREATE TEMP TRIGGER fail_event BEFORE INSERT ON events BEGIN SELECT RAISE(ABORT,'injected'); END")
         with pytest.raises(sqlite3.Error):
-            monitor.predict(PredictionRequest(text='The office opens tomorrow.',event_id='failure'))
+            monitor.predict(PredictionRequest(text=REVIEW_TEXT,event_id='failure'))
         assert monitor.db.execute('SELECT COUNT(*) FROM clusters').fetchone()[0] == 0
         monitor.db.execute('DROP TRIGGER fail_event')
-        result = monitor.predict(PredictionRequest(text='The office opens tomorrow.',event_id='success'))
+        result = monitor.predict(PredictionRequest(text=REVIEW_TEXT,event_id='success'))
         cid = result['cluster_id_or_null']
         monitor.db.execute("CREATE TEMP TRIGGER fail_review BEFORE INSERT ON review_requests BEGIN SELECT RAISE(ABORT,'injected'); END")
         with pytest.raises(sqlite3.Error):
@@ -59,15 +59,15 @@ def test_rollback_and_backup(settings, tmp_path):
             monitor.db.backup(target)
     finally:
         monitor.close()
-    restored = DurableMonitor(Runtime(settings.model_dir), replace(settings,db_path=backup))
+    restored = DurableMonitor(load_runtime(settings)[0], replace(settings,db_path=backup))
     try:
         assert restored.monitoring()['event_count'] == 1
-        assert restored.predict(PredictionRequest(text='The office opens tomorrow.',event_id='success')) == result
+        assert restored.predict(PredictionRequest(text=REVIEW_TEXT,event_id='success')) == result
         restored.runtime.version = 'new-version-test'
         assert restored.monitoring()['event_count'] == 0
         assert restored.queue() == []
         with pytest.raises(APIError) as error:
-            restored.predict(PredictionRequest(text='The office opens tomorrow.',event_id='success'))
+            restored.predict(PredictionRequest(text=REVIEW_TEXT,event_id='success'))
         assert error.value.status == 409
     finally:
         restored.close()
@@ -115,7 +115,7 @@ def test_storage_failure_disables_readiness(client):
 
 
 def test_review_pagination_and_private_storage(client, settings):
-    prediction = client.post('/api/v1/predictions', json={'text':'The office opens tomorrow.', 'event_id':'private-event'}).json()
+    prediction = client.post('/api/v1/predictions', json={'text':REVIEW_TEXT, 'event_id':'private-event'}).json()
     cid = prediction['cluster_id_or_null']
     for i, status in enumerate(('rejected','pending','confirmed')):
         assert client.post(f'/api/v1/clusters/{cid}/reviews',json={'review_id':f'r{i}','status':status}).status_code == 200
@@ -125,7 +125,7 @@ def test_review_pagination_and_private_storage(client, settings):
     assert second['next_after_id'] is None
     assert client.get('/api/v1/clusters?status=pending').json()['items'] == []
     with sqlite3.connect(settings.db_path) as db:
-        assert 'The office opens tomorrow.' not in '\n'.join(db.iterdump())
+        assert REVIEW_TEXT not in '\n'.join(db.iterdump())
 
 
 def test_single_process_ownership(settings):

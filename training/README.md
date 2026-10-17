@@ -5,6 +5,22 @@ monitoring and a local API. Everything for this workflow is under `training/`.
 The executed scope is a **private unreviewed demonstration**, not validated
 fraud protection. See [PLAN.md](PLAN.md) for the one-hour budget decisions.
 
+> **v2 training process.** The v1 run below learned a masking shortcut. See
+> [RESULTS_V2.md](RESULTS_V2.md) for the diagnosis, the fixes and the side-by-side
+> comparison. Reproduce v2 (Windows paths shown; use `bin/` on POSIX):
+>
+> ```bash
+> python training/scripts/add_public_controls.py      # base + UCI ham -> messages_v2.jsonl
+> training/.venv/Scripts/python training/scripts/download_encoder.py
+> PYTHONPATH=training/src training/.venv/Scripts/python -m svo.train_v2 \
+>   --data training/data/processed/messages_v2.jsonl \
+>   --encoder training/cache/multilingual-e5-small --run training/runs/v2 --simulation
+> PYTHONPATH=training/src training/.venv/Scripts/python -m unittest discover -s training/tests
+> # Once only, after freeze:
+> PYTHONPATH=training/src training/.venv/Scripts/python -m svo.evaluate_v2 \
+>   --data training/data/processed/messages_v2.jsonl --run training/runs/v2 --simulation
+> ```
+
 ## Setup
 
 Run from the repository root. Python 3.12 was used. A working environment is

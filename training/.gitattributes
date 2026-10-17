@@ -1,0 +1,6 @@
+# Bundles and datasets are verified by SHA-256; line-ending conversion
+# (core.autocrlf on Windows) breaks verification and the API startup check.
+runs/** -text
+data/** -text
+*.jsonl -text
+*.joblib binary

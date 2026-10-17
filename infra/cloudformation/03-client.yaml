@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  SVO analyst console on AWS Amplify Hosting: builds app/client from GitHub on
+  every push and points it at the API's CloudFront URL. Also publishes the
+  console origin to SSM so the API allows it via CORS.
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: svo
+  EnvName:
+    Type: String
+    Default: prod
+    Description: Must match the server stack's EnvName.
+  RepositoryUrl:
+    Type: String
+    Default: https://github.com/Dilhara11/ScamFit-TnsorForge-Lumora
+    Description: GitHub repository URL (no .git suffix).
+  BranchName:
+    Type: String
+    Default: main
+    Description: Branch to deploy. Slashes become dashes in the Amplify hostname.
+  GitHubAccessToken:
+    Type: String
+    NoEcho: true
+    MinLength: 1
+    Description: GitHub token with read access to the repository (Amplify installs a webhook with it).
+  ApiUrl:
+    Type: String
+    AllowedPattern: '^https://[^/]+$'
+    Description: ApiUrl output of the server stack, e.g. https://d123abc.cloudfront.net
+
+Resources:
+  App:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: !Sub '${ProjectName}-${EnvName}-console'
+      Repository: !Ref RepositoryUrl
+      AccessToken: !Ref GitHubAccessToken
+      Platform: WEB
+      EnvironmentVariables:
+        - Name: AMPLIFY_MONOREPO_APP_ROOT
+          Value: app/client
+        # Default API base URL baked into the build; analysts still enter their key at runtime.
+        - Name: VITE_SVO_API_BASE_URL
+          Value: !Ref ApiUrl
+      BuildSpec: |
+        version: 1
+        applications:
+          - appRoot: app/client
+            frontend:
+              phases:
+                preBuild:
+                  commands:
+                    - nvm use 22 || nvm install 22
+                    - npm ci --no-audit --no-fund
+                build:
+                  commands:
+                    - npm run build
+              artifacts:
+                baseDirectory: dist
+                files:
+                  - '**/*'
+              cache:
+                paths:
+                  - node_modules/**/*
+      # Mirrors app/client/nginx.conf, with the API origin added to connect-src.
+      CustomHeaders: !Sub |
+        applications:
+          - appRoot: app/client
+            customHeaders:
+              - pattern: '**'
+                headers:
+                  - key: Strict-Transport-Security
+                    value: max-age=31536000; includeSubDomains
+                  - key: X-Content-Type-Options
+                    value: nosniff
+                  - key: X-Frame-Options
+                    value: DENY
+                  - key: Referrer-Policy
+                    value: no-referrer
+                  - key: Content-Security-Policy
+                    value: "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ${ApiUrl}; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+              - pattern: '/assets/**'
+                headers:
+                  - key: Cache-Control
+                    value: public, max-age=31536000, immutable
+      CustomRules:
+        # Client-side routes fall back to the app shell; real files are served as-is.
+        - Source: '</^[^.]+$|\.(?!(css|gif|ico|jpg|jpeg|js|png|txt|svg|woff|woff2|ttf|map|json|webp)$)([^.]+$)/>'
+          Target: /index.html
+          Status: '200'
+
+  Branch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt App.AppId
+      BranchName: !Ref BranchName
+      EnableAutoBuild: true
+      Stage: PRODUCTION
+
+  # Read by the API on start (svo-start); restart the API after creating this stack.
+  AllowedOriginsParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '/${ProjectName}/${EnvName}/allowed-origins'
+      Type: String
+      Value: !Sub
+        - 'https://${Host}.${App.DefaultDomain}'
+        - Host: !Join ['-', !Split ['/', !Ref BranchName]]
+
+Outputs:
+  AppId:
+    Value: !GetAtt App.AppId
+  ConsoleUrl:
+    Value: !GetAtt AllowedOriginsParam.Value
+  FirstBuildCommand:
+    Description: CloudFormation does not start the first build; run this once.
+    Value: !Sub 'aws amplify start-job --app-id ${App.AppId} --branch-name ${BranchName} --job-type RELEASE'

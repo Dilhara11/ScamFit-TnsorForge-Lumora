@@ -2,7 +2,6 @@
 import argparse
 import json
 import platform
-import resource
 import time
 import zipfile
 from pathlib import Path
@@ -12,6 +11,14 @@ import numpy as np
 from .data import digest, load_data, write_json
 from .model import Runtime, metrics
 from .monitor import Monitor
+
+
+def peak_rss_kib():
+    try:
+        import resource  # POSIX only; v1 crashed on Windows at import time
+        return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    except ImportError:
+        return None
 
 
 def report(runtime, rows):
@@ -130,7 +137,7 @@ def main():
         "runtime": {"platform": platform.platform(), "processor": platform.processor(),
             "cold_start_seconds": cold, "warm_p50_ms": float(np.percentile(latencies,50)),
             "warm_p95_ms": float(np.percentile(latencies,95)), "latency_samples": len(latencies),
-            "peak_process_rss_kib_linux": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+            "peak_process_rss_kib_linux": peak_rss_kib(),
             "bundle_bytes": sum(p.stat().st_size for p in (out / "bundle").rglob("*") if p.is_file())},
         "targets": {"precision": .9, "recall": .8, "warm_p95_ms": 2000, "normal_false_alert_rate": .05},
         "development": development,

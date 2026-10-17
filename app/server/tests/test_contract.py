@@ -5,11 +5,12 @@ from fastapi.testclient import TestClient
 import pytest
 from svo_api.main import create_app
 from svo_api.settings import Settings
+from conftest import REVIEW_TEXT
 
 
 def test_health_contract_and_errors(client):
-    assert client.get('/health/ready').json()['model_version'] == 'svo-38879254a924'
-    assert client.get('/api/v1/model').json()['scores_calibrated'] is False
+    assert client.get('/health/ready').json()['model_version'] == 'svo-e2a46f504b19'
+    assert client.get('/api/v1/model').json()['scores_calibrated'] is True
     assert client.get('/api/v1/monitoring').json()['event_count'] == 0
     cases = [({},422), ({'text':'x','event_id':1},422), ({'text':' ','event_id':'a'},422),
              ({'text':'x','event_id':'a','label':'scam'},422),
@@ -39,7 +40,7 @@ def test_auth_cors_and_identity(settings):
         assert c.post('/api/v1/predictions', content='x'*70000).status_code == 401
         assert c.get('/api/v1/model', headers={'X-API-Key':'wrong'}).status_code == 401
         headers = {'Authorization':'Bearer '+'k'*32}
-        prediction = c.post('/api/v1/predictions', headers=headers, json={'text':'The office opens tomorrow.', 'event_id':'a'}).json()
+        prediction = c.post('/api/v1/predictions', headers=headers, json={'text':REVIEW_TEXT, 'event_id':'a'}).json()
         cid = prediction['cluster_id_or_null']
         assert cid is not None
         response = c.post(f'/api/v1/clusters/{cid}/reviews', headers=headers, json={'review_id':'r','status':'rejected'})

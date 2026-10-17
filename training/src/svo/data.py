@@ -17,11 +17,11 @@ def digest(path):
 def write_json(path, obj):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False, allow_nan=False) + "\n")
+    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
 
 
 def load_data(path, simulation=False):
-    rows = [json.loads(line) for line in Path(path).read_text().splitlines() if line.strip()]
+    rows = [json.loads(line) for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
     ids, groups, texts = set(), {}, {}
     required = {"id", "text", "label", "language", "family", "scenario_group_id",
                 "source_id", "source_type", "license_or_generation_method",
