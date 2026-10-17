@@ -137,7 +137,7 @@ Resources:
               - |
                 #!/bin/bash
                 # Bootstrap: Docker, the data volume, and the svo-api systemd unit.
-                # Plain $VAR only below: ${...} is CloudFormation substitution.
+                # Use plain $VAR in shell code: dollar-brace is CloudFormation substitution.
                 set -euxo pipefail
                 exec > >(tee -a /var/log/svo-bootstrap.log) 2>&1
                 signal() { /opt/aws/bin/cfn-signal -e "$1" '${ReadyHandle}' || true; }
