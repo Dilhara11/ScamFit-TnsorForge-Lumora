@@ -1,10 +1,10 @@
 # Scam Variant Observatory — training and MLOps execution plan
 
-Date: 17 October 2026. Status: planning specification; no training, notebooks, dataset audit, or performance measurements have been completed by this document.
+Date: 17 October 2026. Status: original design superseded for this execution by the [one-hour training plan](../training/PLAN.md). Implementation, private data, notebooks, measured evidence and exports are under `training/`; see [training README](../training/README.md). The user prohibits staging, commits and pushes, overriding historical commit/submission instructions below.
 
 **Recommendation:** keep the baseline → evaluate → select approach, but make the first deployable system a small trained classifier plus multilingual embeddings, novelty monitoring, and an analyst queue. Compare two mandatory candidates. Allow one short fine-tuning experiment only after the complete detection → drift → response workflow runs. Optimize model size only if a measured runtime or transfer problem requires it.
 
-The planning budget is **240 minutes remaining**, following the team's estimate. This is an allocation, not a statement of the current remaining clock time. The official deadline is **14:00 Asia/Colombo on 17 October 2026**; subtract time already spent, including planning. Do not restart a four-hour clock when implementing this file.
+The current execution budget is **60 minutes**, following the user's latest instruction. The original 240-minute specification below is historical context; optional fine-tuning/compression and the controlled update are deferred. Candidate B is conditional on download/setup time. This is an allocation, not a statement of the current remaining clock time. The official deadline is **14:00 Asia/Colombo on 17 October 2026**; subtract time already spent, including planning. Do not restart a four-hour clock when implementing this file.
 
 ## 1. Source of truth and scope
 
@@ -374,34 +374,19 @@ predict(text) -> {
 
 Use `decision` values such as `high_risk`, `review`, and `low_risk`; never equate `low_risk` with verified safety. A compact Streamlit app with shared Python modules is the default fastest service. Use FastAPI only if a separate frontend already requires it. Show actual model outputs, logs, rolling metrics, and queue state. Persist predictions/alerts/review decisions in SQLite or another simple durable local store. Log scores, versions, event IDs, and timings by default; keep raw messages out of general logs.
 
-## 10. Four-hour execution budget
+## 10. Superseding one-hour execution budget
 
-These blocks total **240 minutes** and include product integration, not just GPU time. Registered teammates may own independent workstreams if available; otherwise execute sequentially and remove the optional blocks. The schedule does not assume extra contributors.
+Follow [training/PLAN.md](../training/PLAN.md), which replaces the former four-hour schedule and cut rules.
 
-| Remaining-time allocation | Work | Required exit artifact |
-|---|---|---|
-| 0–15 min | Verify deadline/submission, source gates, schema, private storage, environment and model download | Config, data decision, setup/import checks |
-| 15–45 min | Review examples, group/split, construct independent shift/support seeds, write notebook 01 | Split manifest and data audit |
-| 45–60 min | Train A; wire minimal app and prediction logs | Runnable baseline and Drive backup |
-| 60–85 min | Cache embeddings; train B; compare development behavior | Provisional winner and runtime measurements |
-| 85–125 min | Novelty, clustering, normal/shift development replay, queue response | Complete live observatory workflow |
-| 125–145 min | Optional C **or** fix data/false alerts; never both | One recorded improvement decision |
-| 145–165 min | Controlled cheap-head update; development comparison and parity | Update candidate or documented deferral |
-| 165–190 min | Freeze; final evaluation; bundle; download; local service verification | Hashed bundle, final scorecard |
-| 190–215 min | README, data/licence disclosure, impact statement, architecture, PDF deck | Complete deliverables |
-| 215–240 min | Rehearse 8-minute pitch, demo/fallback, final checks, commit and submit early | Submitted working product |
+| Budget | Work |
+|---|---|
+| 0–10 min | Inspect data, environment, private storage and source limitations |
+| 10–25 min | Group/split data, multilingual synthetic controls, CPU baseline |
+| 25–40 min | Conditional frozen E5 comparison, monitoring and analyst response |
+| 40–50 min | Leakage/parity/persistence/API checks, select and freeze |
+| 50–60 min | Once-only final evaluation, private bundle and documentation |
 
-If a full six hours genuinely remain, spend extra time on independently reviewed language examples, source quality, deployment testing, and update validation. Do not expand into a large model tournament.
-
-### Cut rules
-
-- **No usable GPU within 10 minutes:** proceed with A and benchmark CPU embeddings on a limited sample. Skip C. If semantic encoding is infeasible, retain a TF-IDF novelty/review fallback and explicitly disclose reduced semantic/multilingual capability.
-- **No accepted dataset by minute 30:** use the reviewed synthetic fallback and reduce language claims; record public-data omission.
-- **No running baseline by minute 60:** stop all challenger work until one works.
-- **No drift + response demonstration by minute 125:** spend C's entire block on monitoring/integration.
-- **Fewer than 90 minutes remain:** no new architectures or compression; finish export, evidence, and app.
-- **Fewer than 45 minutes remain:** freeze model work; finish required submission artifacts and rehearse.
-- **Download/network failure:** use last complete Drive/local bundle, backup internet, and documented local launch; disclose any recorded replay fallback.
+All training files belong under `training/`, including the original folder proposal's configs, notebooks, shared source, scripts, data, runs, artifacts, exports and tests. Do not stage, commit, push or submit anything in this session. No GPU fine-tuning, compression, cloud deployment or full dashboard is required for this reduced training handoff. Use an explicitly reported short-window demo monitor. If source/review status is unresolved, results are a private unreviewed demonstration, not validated product evidence. Preserve update partitions without claiming an approved controlled update.
 
 ## 11. Optimization policy
 

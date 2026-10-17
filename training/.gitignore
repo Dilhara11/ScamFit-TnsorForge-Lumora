@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+data/
+cache/
+artifacts/
+exports/
+# Keep run outputs private except the selected runtime bundle.
+/runs/*
+!/runs/final/
+/runs/final/*
+!/runs/final/bundle/
+/runs/final/bundle/*
+!/runs/final/bundle/manifest.json
+!/runs/final/bundle/decision_config.json
+!/runs/final/bundle/model_card.md
+!/runs/final/bundle/model.joblib
+*.sqlite*
+*.csv
+*.jsonl
+*.parquet
+*.xlsx
+*:Zone.Identifier
