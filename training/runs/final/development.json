@@ -1,0 +1,98 @@
+{
+  "experiments": [
+    {
+      "candidate": "tfidf",
+      "C": 0.5,
+      "val_select": {
+        "n": 79,
+        "groups": 40,
+        "scam_count": 59,
+        "legitimate_count": 20,
+        "macro_f1": 0.7629302736098853,
+        "scam_precision": 0.9772727272727273,
+        "scam_recall": 0.7288135593220338,
+        "scam_f1": 0.8349514563106796,
+        "pr_auc_average_precision": 0.9652699771054585,
+        "brier": 0.14582093060016632,
+        "confusion_matrix_legitimate_scam": [
+          [
+            19,
+            1
+          ],
+          [
+            16,
+            43
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.05
+      }
+    },
+    {
+      "candidate": "tfidf",
+      "C": 2.0,
+      "val_select": {
+        "n": 79,
+        "groups": 40,
+        "scam_count": 59,
+        "legitimate_count": 20,
+        "macro_f1": 0.7991525423728814,
+        "scam_precision": 0.8983050847457628,
+        "scam_recall": 0.8983050847457628,
+        "scam_f1": 0.8983050847457628,
+        "pr_auc_average_precision": 0.9765220697309087,
+        "brier": 0.11262793838977814,
+        "confusion_matrix_legitimate_scam": [
+          [
+            14,
+            6
+          ],
+          [
+            6,
+            53
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.3
+      },
+      "feature_and_training_seconds": 0.17503920899980585
+    }
+  ],
+  "selected": "tfidf",
+  "selection_reason": "E5 within 0.02 macro-F1 when available; otherwise best TF-IDF on val_select",
+  "candidate_b": "skipped_setup_or_download_budget",
+  "candidate_c": "skipped_one_hour_budget",
+  "operating_target_met": true,
+  "calibration": {
+    "n": 88,
+    "groups": 35,
+    "scam_count": 68,
+    "legitimate_count": 20,
+    "macro_f1": 0.8044444444444444,
+    "scam_precision": 0.9655172413793104,
+    "scam_recall": 0.8235294117647058,
+    "scam_f1": 0.8888888888888888,
+    "pr_auc_average_precision": 0.9749178235366972,
+    "brier": 0.1108047291636467,
+    "confusion_matrix_legitimate_scam": [
+      [
+        18,
+        2
+      ],
+      [
+        12,
+        56
+      ]
+    ],
+    "high_risk_false_positive_rate": 0.1
+  },
+  "monitoring": {
+    "novelty_threshold": 0.823771595954895,
+    "drift_unknown_threshold": 0.15,
+    "cluster_similarity": 0.3,
+    "cluster_threshold_status": "selected_on_shift_dev_pair_f1",
+    "normal_calibration_windows": 228,
+    "normal_calibration_elevated_fraction": 0.0
+  },
+  "runtime_parity_max_score_difference": 0.0,
+  "train_seconds": 1.3659642800002985,
+  "update": "deferred_requires_separately_approved_support_groups_and_budget"
+}

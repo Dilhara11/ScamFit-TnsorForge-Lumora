@@ -27,8 +27,8 @@ the selected bundle has been transferred.
 
 ## Reproduce
 
-The private seed file and source CSV must be provided through controlled team
-access. They are deliberately not embedded in public code or notebook outputs.
+The private seed file and source CSV are included in this repository for team
+reproduction. Keep repository access private; data review remains unresolved.
 Keep the original data untouched. Preparation refuses to overwrite its output.
 
 ```bash

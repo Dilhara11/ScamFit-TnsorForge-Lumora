@@ -1,24 +1,22 @@
+# Share training inputs, prepared data, run evidence, and exports privately.
+# Exclude machine-local environments and downloaded encoder caches.
 .venv/
+venv/
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-data/
-cache/
-artifacts/
-exports/
-# Keep run outputs private except the selected runtime bundle.
-/runs/*
-!/runs/final/
-/runs/final/*
-!/runs/final/bundle/
-/runs/final/bundle/*
-!/runs/final/bundle/manifest.json
-!/runs/final/bundle/decision_config.json
-!/runs/final/bundle/model_card.md
-!/runs/final/bundle/model.joblib
-*.sqlite*
-*.csv
-*.jsonl
-*.parquet
-*.xlsx
+/cache/
 *:Zone.Identifier
+
+# Allow saved training models despite the root artifact rules.
+!*.joblib
+!*.pkl
+!*.pickle
+!*.pt
+!*.pth
+!*.onnx
+!*.safetensors
+
+# Saved evaluation evidence; other runtime databases remain ignored.
+!/runs/final/benign_replay.sqlite
+!/runs/final/final_replay.sqlite

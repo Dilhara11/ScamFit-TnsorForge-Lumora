@@ -1,0 +1,702 @@
+[
+  {
+    "group": "train01",
+    "split": "train",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your bank account will close today. Reply with the one-time code to keep it active.",
+      "si": "ඔබේ බැංකු ගිණුම අද වසා දමනු ඇත. එය සක්‍රියව තබා ගැනීමට එක් වරක් භාවිත කරන කේතය පිළිතුරක් ලෙස එවන්න.",
+      "ta": "உங்கள் வங்கிக் கணக்கு இன்று மூடப்படும். அதைச் செயலில் வைத்திருக்க ஒருமுறை கடவுக்குறியீட்டை அனுப்புங்கள்.",
+      "singlish": "Obe banku ginuma ada wahenawa. Eka sakriya karanna OTP code eka reply karanna.",
+      "tanglish": "Unga bank account innikku moodappadum. Active ah vaikka OTP code anuppunga."
+    }
+  },
+  {
+    "group": "train01",
+    "split": "train",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your bank will never ask you to send a one-time code. Keep it private.",
+      "si": "ඔබේ බැංකුව එක් වරක් භාවිත කරන කේතය එවන්නැයි කිසිදා ඉල්ලන්නේ නැත. එය රහසිගතව තබා ගන්න.",
+      "ta": "உங்கள் வங்கி ஒருமுறை கடவுக்குறியீட்டை அனுப்பச் சொல்லாது. அதை ரகசியமாக வைத்திருங்கள்.",
+      "singlish": "Obe bankuwa kawadawath OTP code eka ewanna kiyanne naha. Eka rahasak widihata thiyaganna.",
+      "tanglish": "Unga bank OTP code anuppa sollathu. Athai ragasiyama vachirunga."
+    }
+  },
+  {
+    "group": "train02",
+    "split": "train",
+    "family": "advance_fee",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your parcel is blocked. Transfer a release fee to our personal wallet before delivery.",
+      "si": "ඔබේ පාර්සලය නවතා ඇත. බෙදා හැරීමට පෙර නිදහස් කිරීමේ ගාස්තුව අපේ පුද්ගලික මුදල් පසුම්බියට යවන්න.",
+      "ta": "உங்கள் பார்சல் நிறுத்தப்பட்டுள்ளது. விநியோகத்திற்கு முன் விடுவிப்புக் கட்டணத்தை எங்கள் தனிப்பட்ட பணப்பைக்கு அனுப்புங்கள்.",
+      "singlish": "Obe parcel eka nawaththala. Delivery kalin release fee eka ape personal wallet ekata yawanna.",
+      "tanglish": "Unga parcel niruthappattirukku. Delivery ku mun release fee enga personal wallet ku anuppunga."
+    }
+  },
+  {
+    "group": "train02",
+    "split": "train",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your parcel is ready for collection at the usual counter. No additional fee is required.",
+      "si": "ඔබේ පාර්සලය සුපුරුදු කවුන්ටරයෙන් ලබා ගත හැක. අමතර ගාස්තුවක් අවශ්‍ය නැත.",
+      "ta": "உங்கள் பார்சலை வழக்கமான கவுண்டரில் பெறலாம். கூடுதல் கட்டணம் தேவையில்லை.",
+      "singlish": "Obe parcel eka purudu counter eken ganna puluwan. Amathara gasthuwak naha.",
+      "tanglish": "Unga parcel vazhakkamana counter la vangalam. Kooduthal kattanam thevai illa."
+    }
+  },
+  {
+    "group": "train03",
+    "split": "train",
+    "family": "investment_deception",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Our investment has no risk and doubles your money every week. Deposit now to secure guaranteed profit.",
+      "si": "අපේ ආයෝජනයේ අවදානමක් නැති අතර සෑම සතියකම ඔබේ මුදල් දෙගුණ වේ. සහතික ලාභය සඳහා දැන් තැන්පත් කරන්න.",
+      "ta": "எங்கள் முதலீட்டில் ஆபத்து இல்லை; ஒவ்வொரு வாரமும் பணம் இரட்டிப்பாகும். உறுதியான லாபத்திற்கு இப்போதே பணம் செலுத்துங்கள்.",
+      "singlish": "Ape investment eke risk naha sathiyakata salli deguna wenawa. Sure profit ekata dan deposit karanna.",
+      "tanglish": "Enga investment la risk illa vaaram vaaram panam double aagum. Guaranteed profit ku ippo deposit pannunga."
+    }
+  },
+  {
+    "group": "train03",
+    "split": "train",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Investments can lose value. Read the risks and consult an independent adviser before investing.",
+      "si": "ආයෝජනවල වටිනාකම අඩු විය හැක. ආයෝජනයට පෙර අවදානම් කියවා ස්වාධීන උපදේශකයෙකුගෙන් විමසන්න.",
+      "ta": "முதலீடுகளின் மதிப்பு குறையலாம். முதலீடு செய்வதற்கு முன் ஆபத்துகளைப் படித்து சுயாதீன ஆலோசகரிடம் கேளுங்கள்.",
+      "singlish": "Investment wala agaya adu wenna puluwan. Risk kiyawala swadheena upadeshakayekgen ahanna.",
+      "tanglish": "Investment mathippu kuraiyalam. Risk padichu independent adviser kitta kelunga."
+    }
+  },
+  {
+    "group": "train04",
+    "split": "train",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Security verification failed. Send your password in this chat so we can restore access.",
+      "si": "ආරක්ෂක තහවුරු කිරීම අසාර්ථකයි. ප්‍රවේශය නැවත ලබා දීමට ඔබේ මුරපදය මෙම සංවාදයට එවන්න.",
+      "ta": "பாதுகாப்புச் சரிபார்ப்பு தோல்வியடைந்தது. அணுகலை மீட்க உங்கள் கடவுச்சொல்லை இந்த உரையாடலில் அனுப்புங்கள்.",
+      "singlish": "Security verification fail wela. Access hadanna password eka me chat ekata ewanna.",
+      "tanglish": "Security verification fail aachu. Access thirumba kudukka password intha chat la anuppunga."
+    }
+  },
+  {
+    "group": "train04",
+    "split": "train",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "If you forgot your password, open the app yourself and use its reset option. Do not share passwords in chat.",
+      "si": "මුරපදය අමතක නම් යෙදුම ඔබම විවෘත කර යළි සැකසීම භාවිත කරන්න. සංවාදවල මුරපද බෙදා නොගන්න.",
+      "ta": "கடவுச்சொல் மறந்தால் செயலியை நீங்களே திறந்து மீட்டமைப்பைப் பயன்படுத்துங்கள். உரையாடலில் கடவுச்சொல்லைப் பகிர வேண்டாம்.",
+      "singlish": "Password amathaka nam app eka oyama arala reset karanna. Chat wala password denna epa.",
+      "tanglish": "Password maranthaal app neengale thiranthu reset pannunga. Chat la password pagira vendaam."
+    }
+  },
+  {
+    "group": "train05",
+    "split": "train",
+    "family": "advance_fee",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "You won a prize without entering a draw. Pay the handling charge first to claim it.",
+      "si": "දිනුම් ඇදීමකට ඇතුළත් නොවී ඔබ තෑග්ගක් දිනා ඇත. එය ලබා ගැනීමට මුලින් හැසිරවීමේ ගාස්තුව ගෙවන්න.",
+      "ta": "குலுக்கலில் சேராமலேயே பரிசு வென்றுள்ளீர்கள். பெறுவதற்கு முதலில் கையாளுதல் கட்டணத்தைச் செலுத்துங்கள்.",
+      "singlish": "Draw ekakata giye nathath oyata prize ekak. Ganna kalin handling fee gewanna.",
+      "tanglish": "Draw la serama prize win pannirukeenga. Vaanga mudhal handling fee kattunga."
+    }
+  },
+  {
+    "group": "train05",
+    "split": "train",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "The community prize draw results are displayed at the hall. Winners do not pay a collection charge.",
+      "si": "ප්‍රජා දිනුම් ඇදීමේ ප්‍රතිඵල ශාලාවේ දැක්වේ. ජයග්‍රාහකයන් ලබා ගැනීමේ ගාස්තු ගෙවන්නේ නැත.",
+      "ta": "சமூகப் பரிசுக் குலுக்கல் முடிவுகள் மண்டபத்தில் உள்ளன. வெற்றியாளர்கள் பெறுவதற்குக் கட்டணம் செலுத்த வேண்டாம்.",
+      "singlish": "Community draw results hall eke thiyenawa. Dinapu aya collection fee gewanna one naha.",
+      "tanglish": "Community draw results hall la irukku. Winners collection fee katta thevai illa."
+    }
+  },
+  {
+    "group": "train06",
+    "split": "train",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "A refund is waiting. Reply with your full card details and secret PIN to receive it.",
+      "si": "ආපසු ගෙවීමක් බලා සිටී. එය ලබා ගැනීමට ඔබේ සම්පූර්ණ කාඩ් විස්තර සහ රහස් PIN අංකය එවන්න.",
+      "ta": "பணம் திரும்பக் கிடைக்க உள்ளது. பெற முழு அட்டை விவரங்களையும் ரகசிய PIN எண்ணையும் அனுப்புங்கள்.",
+      "singlish": "Refund ekak thiyenawa. Eka ganna card details okkoma saha secret PIN eka ewanna.",
+      "tanglish": "Refund kaathirukku. Athai vaanga full card details um secret PIN um anuppunga."
+    }
+  },
+  {
+    "group": "train06",
+    "split": "train",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your refund has been processed to the original payment method. No card details are needed from you.",
+      "si": "ඔබේ ආපසු ගෙවීම මුල් ගෙවීම් ක්‍රමයට සකසා ඇත. ඔබෙන් කාඩ් විස්තර අවශ්‍ය නැත.",
+      "ta": "உங்கள் பணம் அசல் கட்டண முறைக்குத் திருப்பி அனுப்பப்பட்டது. அட்டை விவரங்கள் தேவையில்லை.",
+      "singlish": "Refund eka kalin gewapu kramayata dala. Oyage card details one naha.",
+      "tanglish": "Refund original payment method ku anuppiyachu. Card details thevai illa."
+    }
+  },
+  {
+    "group": "select01",
+    "split": "val_select",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your mobile service expires tonight. Forward the verification code to this agent to prevent disconnection.",
+      "si": "ඔබේ ජංගම සේවාව අද රාත්‍රියේ අවසන් වේ. විසන්ධි වීම වැළැක්වීමට තහවුරු කිරීමේ කේතය මෙම නියෝජිතයාට යවන්න.",
+      "ta": "உங்கள் மொபைல் சேவை இன்றிரவு முடிகிறது. துண்டிக்கப்படாமல் இருக்க சரிபார்ப்புக் குறியீட்டை இந்த முகவருக்கு அனுப்புங்கள்.",
+      "singlish": "Mobile service eka ada re iwara wenawa. Disconnect nowenna verification code me agent ta yawanna.",
+      "tanglish": "Mobile service innikku night mudiyum. Disconnect aagama irukka verification code intha agent ku anuppunga."
+    }
+  },
+  {
+    "group": "select01",
+    "split": "val_select",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Mobile maintenance is scheduled tonight. Service will resume automatically and no verification code is required.",
+      "si": "ජංගම නඩත්තුව අද රාත්‍රියේ පැවැත්වේ. සේවාව ස්වයංක්‍රීයව නැවත ඇරඹෙන අතර තහවුරු කේතයක් අවශ්‍ය නැත.",
+      "ta": "மொபைல் பராமரிப்பு இன்றிரவு நடக்கும். சேவை தானாகத் திரும்பும்; சரிபார்ப்புக் குறியீடு தேவையில்லை.",
+      "singlish": "Mobile maintenance ada re. Service eka auto enawa verification code one naha.",
+      "tanglish": "Mobile maintenance innikku night. Service auto varum verification code thevai illa."
+    }
+  },
+  {
+    "group": "select02",
+    "split": "val_select",
+    "family": "advance_fee",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your scholarship was selected. Send an approval payment to this private account before we release your grant.",
+      "si": "ඔබේ ශිෂ්‍යත්වය තෝරා ඇත. ප්‍රදානය මුදා හැරීමට පෙර මෙම පුද්ගලික ගිණුමට අනුමත කිරීමේ ගෙවීමක් යවන්න.",
+      "ta": "உங்கள் உதவித்தொகை தேர்ந்தெடுக்கப்பட்டது. தொகையை விடுவிக்க முன் இந்தத் தனிப்பட்ட கணக்கிற்கு ஒப்புதல் கட்டணம் அனுப்புங்கள்.",
+      "singlish": "Scholarship eka select wela. Grant eka denna kalin me private account ekata approval payment yawanna.",
+      "tanglish": "Scholarship select aayirukku. Grant release panna mun intha private account ku approval payment anuppunga."
+    }
+  },
+  {
+    "group": "select02",
+    "split": "val_select",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Scholarship applications are open at the college office. The application form is free.",
+      "si": "ශිෂ්‍යත්ව අයදුම්පත් විද්‍යාල කාර්යාලයෙන් ලබා ගත හැක. අයදුම්පත නොමිලේය.",
+      "ta": "உதவித்தொகை விண்ணப்பங்கள் கல்லூரி அலுவலகத்தில் கிடைக்கும். விண்ணப்பப் படிவம் இலவசம்.",
+      "singlish": "Scholarship applications college office eke thiyenawa. Form eka nomile.",
+      "tanglish": "Scholarship applications college office la kidaikkum. Form free."
+    }
+  },
+  {
+    "group": "cal01",
+    "split": "val_cal",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "To unlock your benefit allowance, tell us the login code that arrived on your phone. Reply immediately.",
+      "si": "ඔබේ දීමනාව විවෘත කිරීමට දුරකථනයට ලැබුණු පිවිසුම් කේතය අපට කියන්න. වහාම පිළිතුරු දෙන්න.",
+      "ta": "உங்கள் உதவித்தொகையைத் திறக்க தொலைபேசிக்கு வந்த உள்நுழைவுக் குறியீட்டைச் சொல்லுங்கள். உடனே பதில் அளியுங்கள்.",
+      "singlish": "Deemanawa unlock karanna phone ekata apu login code eka apita kiyanna. Danma reply karanna.",
+      "tanglish": "Allowance unlock panna phone ku vantha login code engalukku sollunga. Udane reply pannunga."
+    }
+  },
+  {
+    "group": "cal01",
+    "split": "val_cal",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Check benefit eligibility in person at the public service desk. Staff will not request your login code.",
+      "si": "මහජන සේවා කවුළුවට පැමිණ දීමනා සුදුසුකම් පරීක්ෂා කරන්න. කාර්ය මණ්ඩලය පිවිසුම් කේතය ඉල්ලන්නේ නැත.",
+      "ta": "பொதுச் சேவை மையத்தில் நேரில் தகுதியைச் சரிபார்க்கவும். ஊழியர்கள் உள்நுழைவுக் குறியீட்டைக் கேட்க மாட்டார்கள்.",
+      "singlish": "Public service desk ekata gihin eligibility balanna. Staff login code illanne naha.",
+      "tanglish": "Public service desk la neril eligibility paarunga. Staff login code ketka maattaanga."
+    }
+  },
+  {
+    "group": "cal02",
+    "split": "val_cal",
+    "family": "investment_deception",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Join our secret trading circle. Every deposit earns a guaranteed daily return with no possible loss.",
+      "si": "අපේ රහස් වෙළඳ කවයට එක්වන්න. සෑම තැන්පතුවකටම පාඩු නැති සහතික දෛනික ප්‍රතිලාභයක් ලැබේ.",
+      "ta": "எங்கள் ரகசிய வர்த்தகக் குழுவில் சேருங்கள். ஒவ்வொரு வைப்புக்கும் இழப்பில்லாத உறுதியான தினசரி வருமானம் கிடைக்கும்.",
+      "singlish": "Ape secret trading group ekata enna. Deposit hamotama loss nathi sure daily return.",
+      "tanglish": "Enga secret trading group la serunga. Ovvoru deposit kum loss illatha guaranteed daily return."
+    }
+  },
+  {
+    "group": "cal02",
+    "split": "val_cal",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "The business workshop explains trading losses and budgeting. It does not offer guaranteed returns.",
+      "si": "ව්‍යාපාර වැඩමුළුව වෙළඳ පාඩු සහ අයවැය පැහැදිලි කරයි. එය සහතික ප්‍රතිලාභ ලබා දෙන්නේ නැත.",
+      "ta": "வணிகப் பட்டறை வர்த்தக இழப்புகளையும் வரவு செலவையும் விளக்குகிறது. உறுதியான வருமானத்தை வழங்காது.",
+      "singlish": "Business workshop eke trading losses saha budgeting kiyala denawa. Guaranteed returns denne naha.",
+      "tanglish": "Business workshop trading losses um budgeting um vilakkum. Guaranteed return kudukkaathu."
+    }
+  },
+  {
+    "group": "test01",
+    "split": "test_id",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "This is the card protection desk. We need your ATM PIN in a reply to cancel a suspicious withdrawal.",
+      "si": "මෙය කාඩ් ආරක්ෂණ අංශයයි. සැක සහිත මුදල් ගැනීමක් අවලංගු කිරීමට ඔබේ ATM PIN පිළිතුරකින් අවශ්‍යයි.",
+      "ta": "இது அட்டைப் பாதுகாப்புப் பிரிவு. சந்தேகமான பணமெடுப்பை ரத்து செய்ய உங்கள் ATM PIN ஐ பதிலில் அனுப்ப வேண்டும்.",
+      "singlish": "Me card protection desk eka. Suspicious withdrawal cancel karanna ATM PIN reply ekakin one.",
+      "tanglish": "Ithu card protection desk. Suspicious withdrawal cancel panna ATM PIN reply la venum."
+    }
+  },
+  {
+    "group": "test01",
+    "split": "test_id",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "If you see an unfamiliar withdrawal, contact the number printed on your card. Never reveal your ATM PIN.",
+      "si": "නොහඳුනන මුදල් ගැනීමක් දුටුවහොත් කාඩ්පතේ මුද්‍රිත අංකයට අමතන්න. ATM PIN කිසිදා හෙළි නොකරන්න.",
+      "ta": "தெரியாத பணமெடுப்பு இருந்தால் அட்டையில் அச்சிட்ட எண்ணை அழைக்கவும். ATM PIN ஐ ஒருபோதும் தெரிவிக்க வேண்டாம்.",
+      "singlish": "Unknown withdrawal ekak nam card eke print karapu number ekata call karanna. ATM PIN denna epa.",
+      "tanglish": "Theriyaatha withdrawal irunthaal card la print panna number ku call pannunga. ATM PIN solla vendaam."
+    }
+  },
+  {
+    "group": "test02",
+    "split": "test_id",
+    "family": "advance_fee",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "You qualify for a tax repayment. Buy a gift voucher and send its code to cover the release tax.",
+      "si": "ඔබට බදු ආපසු ගෙවීමක් හිමිවේ. මුදා හැරීමේ බද්ද ගෙවීමට තෑගි වවුචරයක් ගෙන එහි කේතය එවන්න.",
+      "ta": "உங்களுக்கு வரி திருப்பித் தரப்படும். விடுவிப்பு வரிக்காக பரிசு வவுச்சர் வாங்கி அதன் குறியீட்டை அனுப்புங்கள்.",
+      "singlish": "Tax repayment ekak oyata. Release tax ekata gift voucher ekak aran code eka ewanna.",
+      "tanglish": "Tax repayment ungalukku. Release tax ku gift voucher vaangi code anuppunga."
+    }
+  },
+  {
+    "group": "test02",
+    "split": "test_id",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Tax repayment status can be checked through your existing official account. Gift vouchers are not accepted for tax payments.",
+      "si": "ඔබේ පවතින නිල ගිණුමෙන් බදු ආපසු ගෙවීමේ තත්ත්වය බලන්න. බදු ගෙවීමට තෑගි වවුචර පිළිගන්නේ නැත.",
+      "ta": "ஏற்கெனவே உள்ள அதிகாரப்பூர்வ கணக்கில் வரி திருப்பித் தரும் நிலையைப் பார்க்கலாம். வரிக்கு பரிசு வவுச்சர்கள் ஏற்கப்படாது.",
+      "singlish": "Thiyena official account eken tax repayment status balanna. Tax walata gift voucher ganne naha.",
+      "tanglish": "Existing official account la tax repayment status paarunga. Tax ku gift voucher accept panna maattaanga."
+    }
+  },
+  {
+    "group": "test03",
+    "split": "test_id",
+    "family": "investment_deception",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Our private savings pool promises a fixed huge profit overnight. Borrow money and transfer it today; you cannot lose.",
+      "si": "අපේ පුද්ගලික ඉතුරුම් කණ්ඩායම එක් රැයකින් විශාල ස්ථිර ලාභයක් පොරොන්දු වේ. ණයට ගෙන අද මුදල් යවන්න; පාඩු විය නොහැක.",
+      "ta": "எங்கள் தனிப்பட்ட சேமிப்புக் குழு ஒரே இரவில் பெரிய லாபத்தை உறுதியளிக்கிறது. கடன் வாங்கி இன்றே அனுப்புங்கள்; இழப்பு வராது.",
+      "singlish": "Ape private savings pool eken ra ekakin loku sure profit. Naya aran ada transfer karanna loss wenne naha.",
+      "tanglish": "Enga private savings pool ore night la periya sure profit. Kadan vaangi innikke transfer pannunga loss varaathu."
+    }
+  },
+  {
+    "group": "test03",
+    "split": "test_id",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "The savings seminar warns against borrowing for speculative investments and explains that returns are uncertain.",
+      "si": "ඉතුරුම් සම්මන්ත්‍රණය අනුමාන ආයෝජන සඳහා ණයට ගැනීමට එරෙහිව අනතුරු අඟවයි; ප්‍රතිලාභ අවිනිශ්චිත බව පැහැදිලි කරයි.",
+      "ta": "சேமிப்புக் கருத்தரங்கு ஊக முதலீட்டிற்கு கடன் வாங்க வேண்டாமென எச்சரிக்கிறது; வருமானம் உறுதியற்றது என விளக்குகிறது.",
+      "singlish": "Savings seminar eke risky investment walata naya ganna epa kiyanawa returns sure naha.",
+      "tanglish": "Savings seminar speculative investment ku kadan vaanga vendaam solluthu returns sure illa."
+    }
+  },
+  {
+    "group": "dev01",
+    "split": "shift_dev",
+    "family": "money_mule",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Work from home by receiving strangers payments in your account and forwarding them. Keep a commission and tell nobody.",
+      "si": "නාඳුනන අයගේ ගෙවීම් ඔබේ ගිණුමට ලබාගෙන ඉදිරියට යවමින් නිවසේ සිට වැඩ කරන්න. කොමිස් තබා කිසිවෙකුට කියන්න එපා.",
+      "ta": "அறிமுகமில்லாதவர்களின் பணத்தை உங்கள் கணக்கில் பெற்று மற்றவருக்கு அனுப்பி வீட்டிலிருந்து வேலை செய்யுங்கள். கமிஷன் வைத்துக்கொண்டு யாரிடமும் சொல்லாதீர்கள்.",
+      "singlish": "Gedara idan strangers lage payments account ekata aran forward karanna. Commission thiyagena katawath kiyanna epa.",
+      "tanglish": "Veetilirunthu strangers payment account la vaangi forward pannunga. Commission vachittu yaarukkum solla vendaam."
+    }
+  },
+  {
+    "group": "dev01",
+    "split": "shift_dev",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "The job centre warns that receiving and forwarding money for strangers can involve financial crime.",
+      "si": "නාඳුනන අය සඳහා මුදල් ලබාගෙන යැවීම මූල්‍ය අපරාධවලට සම්බන්ධ විය හැකි බව රැකියා මධ්‍යස්ථානය අනතුරු අඟවයි.",
+      "ta": "அறிமுகமில்லாதவர்களுக்காக பணத்தைப் பெற்று அனுப்புவது நிதிக் குற்றமாக இருக்கலாம் என வேலை மையம் எச்சரிக்கிறது.",
+      "singlish": "Strangers la wenuwen salli aran yawana eka financial crime wenna puluwan kiyala job centre kiyanawa.",
+      "tanglish": "Strangers kaaga panam vaangi anuppurathu financial crime aagalaam nu job centre echcharikkuthu."
+    }
+  },
+  {
+    "group": "dev02",
+    "split": "shift_dev",
+    "family": "money_mule",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "We need a local payment partner. Let us use your wallet to move client funds secretly and earn easy cash.",
+      "si": "අපට දේශීය ගෙවීම් හවුල්කරුවෙකු අවශ්‍යයි. ගනුදෙනුකරුවන්ගේ මුදල් රහසේ මාරු කිරීමට ඔබේ පසුම්බිය භාවිත කිරීමට දෙන්න.",
+      "ta": "உள்ளூர் பணப் பரிமாற்றப் பங்காளர் தேவை. வாடிக்கையாளர் பணத்தை ரகசியமாக மாற்ற உங்கள் பணப்பையைப் பயன்படுத்த அனுமதியுங்கள்.",
+      "singlish": "Local payment partner kenek one. Client funds rahase move karanna oyage wallet eka denna.",
+      "tanglish": "Local payment partner venum. Client funds ragasiyama move panna unga wallet use panna vidunga."
+    }
+  },
+  {
+    "group": "dev02",
+    "split": "shift_dev",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "A legitimate employer pays wages through a documented payroll and does not rent your wallet to move unknown funds.",
+      "si": "නීත්‍යානුකූල සේවායෝජකයෙක් ලේඛනගත වැටුප් ක්‍රමයකින් ගෙවයි; නොදන්නා මුදල් මාරු කිරීමට ඔබේ පසුම්බිය කුලියට ගන්නේ නැත.",
+      "ta": "சட்டபூர்வ நிறுவனம் பதிவுசெய்த ஊதிய முறையில் சம்பளம் தரும்; தெரியாத பணத்தை மாற்ற உங்கள் பணப்பையை வாடகைக்கு எடுக்காது.",
+      "singlish": "Hari employer kenek documented payroll eken gewanawa unknown funds move karanna wallet rent ganne naha.",
+      "tanglish": "Sariyana employer documented payroll la sambalam tharuvaanga unknown funds ku wallet rent edukka maattaanga."
+    }
+  },
+  {
+    "group": "demo-normal01",
+    "split": "shift_demo",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Your online profile is suspended. Send the password to our support inbox for manual reactivation.",
+      "si": "ඔබේ අන්තර්ජාල පැතිකඩ අත්හිටුවා ඇත. නැවත සක්‍රිය කිරීමට මුරපදය අපේ සහාය ලිපි පෙට්ටියට එවන්න.",
+      "ta": "உங்கள் இணைய சுயவிவரம் நிறுத்தப்பட்டுள்ளது. மீண்டும் செயல்படுத்த கடவுச்சொல்லை எங்கள் ஆதரவு பெட்டிக்கு அனுப்புங்கள்.",
+      "singlish": "Online profile suspend wela. Reactivate karanna password support inbox ekata ewanna.",
+      "tanglish": "Online profile suspend aachu. Reactivate panna password support inbox ku anuppunga."
+    }
+  },
+  {
+    "group": "demo-normal01",
+    "split": "shift_demo",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Profile settings have moved within the application. Open settings yourself; support does not need your password.",
+      "si": "පැතිකඩ සැකසුම් යෙදුම තුළ වෙනත් තැනකට ගෙන ඇත. ඔබම සැකසුම් විවෘත කරන්න; සහායට මුරපදය අවශ්‍ය නැත.",
+      "ta": "சுயவிவர அமைப்புகள் செயலிக்குள் இடம் மாறியுள்ளன. அமைப்புகளை நீங்களே திறக்கவும்; ஆதரவிற்கு கடவுச்சொல் தேவையில்லை.",
+      "singlish": "Profile settings app eke wena thanaka. Oyama settings arinna support ta password one naha.",
+      "tanglish": "Profile settings app la idam maariyirukku. Neengale settings thiranga support ku password thevai illa."
+    }
+  },
+  {
+    "group": "demo-normal02",
+    "split": "shift_demo",
+    "family": "advance_fee",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "An unexpected inheritance is allocated to you. Pay our lawyer first and the fortune will be released.",
+      "si": "අනපේක්ෂිත උරුමයක් ඔබට වෙන් කර ඇත. මුලින් අපේ නීතිඥයාට ගෙවන්න; පසුව ධනය මුදා හරිනු ඇත.",
+      "ta": "எதிர்பாராத சொத்து உங்களுக்கு ஒதுக்கப்பட்டுள்ளது. முதலில் எங்கள் வழக்கறிஞருக்குப் பணம் செலுத்துங்கள்; பிறகு செல்வம் கிடைக்கும்.",
+      "singlish": "Unexpected inheritance ekak oyata. Issella ape lawyer ta gewanna passe salli denawa.",
+      "tanglish": "Unexpected inheritance ungalukku. Mudhal enga lawyer ku kattunga appuram panam release aagum."
+    }
+  },
+  {
+    "group": "demo-normal02",
+    "split": "shift_demo",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "The legal information session explains inheritance procedures. Attendance is free and no payments are requested by message.",
+      "si": "නීතිමය තොරතුරු සැසිය උරුම ක්‍රියාපටිපාටි පැහැදිලි කරයි. සහභාගී වීම නොමිලේය; පණිවිඩ මගින් ගෙවීම් ඉල්ලන්නේ නැත.",
+      "ta": "சட்டத் தகவல் அமர்வு வாரிசுரிமை முறைகளை விளக்குகிறது. பங்கேற்பு இலவசம்; செய்தி மூலம் பணம் கேட்கப்படாது.",
+      "singlish": "Legal session eke inheritance process kiyanawa. Enna free message walin payments illanne naha.",
+      "tanglish": "Legal session inheritance process vilakkum. Attendance free message la payment ketka maattaanga."
+    }
+  },
+  {
+    "group": "demo-normal03",
+    "split": "shift_demo",
+    "family": "investment_deception",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "Only our members can access this guaranteed profit scheme. Put all your savings in today and receive triple next month.",
+      "si": "මේ සහතික ලාභ ක්‍රමයට ප්‍රවේශය සාමාජිකයන්ට පමණි. සියලු ඉතුරුම් අද දමා ලබන මාසයේ තුන් ගුණයක් ගන්න.",
+      "ta": "இந்த உறுதியான லாபத் திட்டம் உறுப்பினர்களுக்கு மட்டும். இன்று முழு சேமிப்பையும் செலுத்தி அடுத்த மாதம் மூன்று மடங்கு பெறுங்கள்.",
+      "singlish": "Members lata witharai me sure profit scheme eka. Savings okkoma ada dala next month thungunayak ganna.",
+      "tanglish": "Members ku mattum intha sure profit scheme. Savings ellam innikku pottu next month triple vaangunga."
+    }
+  },
+  {
+    "group": "demo-normal03",
+    "split": "shift_demo",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "The financial literacy club recommends keeping emergency savings and checking an investment providers registration independently.",
+      "si": "මූල්‍ය දැනුම සමාජය හදිසි ඉතුරුම් තබා ගැනීම සහ ආයෝජන සැපයුම්කරුගේ ලියාපදිංචිය ස්වාධීනව පරීක්ෂා කිරීම නිර්දේශ කරයි.",
+      "ta": "நிதி அறிவுக் குழு அவசர சேமிப்பை வைத்திருக்கவும் முதலீட்டு நிறுவனத்தின் பதிவைத் தனியாகச் சரிபார்க்கவும் அறிவுறுத்துகிறது.",
+      "singlish": "Financial literacy club eka emergency savings thiyaganna investment provider registration swadheenawa balanna kiyanawa.",
+      "tanglish": "Financial literacy club emergency savings vachirukka investment provider registration thaniya check panna solluthu."
+    }
+  },
+  {
+    "group": "demo-new01",
+    "split": "shift_demo",
+    "family": "remote_access",
+    "label": "scam",
+    "shift_type": "unseen_mechanism",
+    "texts": {
+      "en": "Install our remote support tool and give the access key to this caller so we can control your phone and repair your bank account.",
+      "si": "අපේ දුරස්ථ සහාය මෙවලම ස්ථාපනය කර ඇමතුම්කරුට ප්‍රවේශ යතුර දෙන්න; අපි ඔබේ දුරකථනය පාලනය කර බැංකු ගිණුම අලුත්වැඩියා කරමු.",
+      "ta": "எங்கள் தொலைநிலை ஆதரவுக் கருவியை நிறுவி அழைப்பவருக்கு அணுகல் சாவியைத் தாருங்கள்; உங்கள் தொலைபேசியைக் கட்டுப்படுத்தி வங்கிக் கணக்கைச் சரிசெய்வோம்.",
+      "singlish": "Ape remote support tool eka install karala caller ta access key denna phone eka control karala bank account eka hadannam.",
+      "tanglish": "Enga remote support tool install panni caller ku access key kudunga phone control panni bank account sari pannuvom."
+    }
+  },
+  {
+    "group": "demo-new01",
+    "split": "shift_demo",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "benign_novelty",
+    "texts": {
+      "en": "Remote support tools can expose your screen. Do not install one at the request of an unknown caller claiming to fix banking.",
+      "si": "දුරස්ථ සහාය මෙවලම් ඔබේ තිරය හෙළි කළ හැක. බැංකු ගැටලු විසඳන බව කියන නොදන්නා ඇමතුම්කරුවෙකුගේ ඉල්ලීමට ඒවා ස්ථාපනය නොකරන්න.",
+      "ta": "தொலைநிலை ஆதரவுக் கருவிகள் உங்கள் திரையை வெளிப்படுத்தலாம். வங்கியைச் சரிசெய்வதாகக் கூறும் தெரியாத அழைப்பவருக்காக நிறுவ வேண்டாம்.",
+      "singlish": "Remote support tools walin screen eka penna puluwan. Bank eka hadanawa kiyana unknown caller kenek kiwwata install karanna epa.",
+      "tanglish": "Remote support tool screen kaattum. Bank sari pannuren nu sollura unknown caller sonna install panna vendaam."
+    }
+  },
+  {
+    "group": "demo-new02",
+    "split": "shift_demo",
+    "family": "remote_access",
+    "label": "scam",
+    "shift_type": "unseen_mechanism",
+    "texts": {
+      "en": "Share your screen with our technician and open your banking app. Approve the control request so we can fix your balance.",
+      "si": "අපේ කාර්මිකයාට තිරය බෙදා දී බැංකු යෙදුම විවෘත කරන්න. ශේෂය නිවැරදි කිරීමට පාලන ඉල්ලීම අනුමත කරන්න.",
+      "ta": "எங்கள் தொழில்நுட்ப நிபுணருடன் திரையைப் பகிர்ந்து வங்கிச் செயலியைத் திறக்கவும். இருப்பைச் சரிசெய்ய கட்டுப்பாட்டு கோரிக்கையை அனுமதிக்கவும்.",
+      "singlish": "Ape technician ta screen share karala banking app arinna. Balance hadanna control request approve karanna.",
+      "tanglish": "Enga technician ku screen share panni banking app thiranga. Balance sari panna control request approve pannunga."
+    }
+  },
+  {
+    "group": "demo-new02",
+    "split": "shift_demo",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "benign_novelty",
+    "texts": {
+      "en": "The library offers a lesson on screen sharing using a practice document. Close banking apps before joining and keep device control.",
+      "si": "පුස්තකාලය පුහුණු ලේඛනයක් භාවිත කර තිර බෙදා ගැනීමේ පාඩමක් පවත්වයි. බැංකු යෙදුම් වසා උපාංගයේ පාලනය ඔබ සතුව තබා ගන්න.",
+      "ta": "நூலகம் பயிற்சி ஆவணத்துடன் திரைப் பகிர்வு வகுப்பு நடத்துகிறது. வங்கிச் செயலிகளை மூடி சாதனக் கட்டுப்பாட்டை உங்களிடம் வைத்திருங்கள்.",
+      "singlish": "Library eke practice document ekakin screen sharing lesson. Banking apps wahala device control oyama thiyaganna.",
+      "tanglish": "Library practice document oda screen sharing lesson nadathuthu. Banking apps moodi device control ungakitta vachirunga."
+    }
+  },
+  {
+    "group": "demo-new03",
+    "split": "shift_demo",
+    "family": "remote_access",
+    "label": "scam",
+    "shift_type": "unseen_mechanism",
+    "texts": {
+      "en": "For the identity service repair, enable accessibility control for our helper app and let our agent operate the device without supervision.",
+      "si": "හැඳුනුම් සේවාව අලුත්වැඩියා කිරීමට අපේ සහාය යෙදුමට ප්‍රවේශතා පාලනය සක්‍රිය කර නියෝජිතයාට අධීක්ෂණයකින් තොරව උපාංගය ක්‍රියාත්මක කිරීමට දෙන්න.",
+      "ta": "அடையாள சேவையைச் சரிசெய்ய எங்கள் உதவி செயலிக்கு அணுகல்தன்மைக் கட்டுப்பாட்டை இயக்கி முகவர் மேற்பார்வையின்றி சாதனத்தை இயக்க அனுமதியுங்கள்.",
+      "singlish": "Identity service repair ekata helper app eke accessibility control on karala agent ta balanne nathuwa device eka use karanna denna.",
+      "tanglish": "Identity service repair ku helper app accessibility control on panni agent thaniya device operate panna vidunga."
+    }
+  },
+  {
+    "group": "demo-new03",
+    "split": "shift_demo",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "benign_novelty",
+    "texts": {
+      "en": "Accessibility settings help people use devices. Review permissions carefully and do not grant remote control to unexpected identity-service callers.",
+      "si": "ප්‍රවේශතා සැකසුම් උපාංග භාවිතයට උදව් කරයි. අවසර ප්‍රවේශමෙන් පරීක්ෂා කර අනපේක්ෂිත හැඳුනුම් සේවා ඇමතුම්කරුවන්ට දුරස්ථ පාලනය නොදෙන්න.",
+      "ta": "அணுகல்தன்மை அமைப்புகள் சாதனப் பயன்பாட்டிற்கு உதவுகின்றன. அனுமதிகளை கவனமாகப் பார்த்து எதிர்பாராத அடையாள சேவை அழைப்பவர்களுக்கு தொலைநிலைக் கட்டுப்பாடு தர வேண்டாம்.",
+      "singlish": "Accessibility settings device use karanna udaw wenawa. Permissions balala unexpected identity service callers lata remote control denna epa.",
+      "tanglish": "Accessibility settings device use panna uthavum. Permissions paarthu unexpected identity service callers ku remote control kudukka vendaam."
+    }
+  },
+  {
+    "group": "support01",
+    "split": "update_train",
+    "family": "remote_access",
+    "label": "scam",
+    "shift_type": "unseen_mechanism",
+    "texts": {
+      "en": "Allow unattended access in the repair application so our agent can manage your payments while you are away.",
+      "si": "ඔබ නැති විට ගෙවීම් කළමනාකරණයට නියෝජිතයාට අලුත්වැඩියා යෙදුමෙන් අධීක්ෂණ රහිත ප්‍රවේශය දෙන්න.",
+      "ta": "நீங்கள் இல்லாதபோது பணம் செலுத்த முகவருக்கு பழுதுபார்ப்பு செயலியில் கண்காணிப்பற்ற அணுகலைத் தாருங்கள்.",
+      "singlish": "Oya nathi welawe payments manage karanna repair app eken unattended access denna.",
+      "tanglish": "Neenga illaatha nerathula payments manage panna repair app la unattended access kudunga."
+    }
+  },
+  {
+    "group": "support01",
+    "split": "update_train",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "benign_novelty",
+    "texts": {
+      "en": "Turn off unattended access when a support session ends. Only approve support you independently requested.",
+      "si": "සහාය සැසිය අවසන් වූ විට අධීක්ෂණ රහිත ප්‍රවේශය අක්‍රිය කරන්න. ඔබම ඉල්ලූ සහාය පමණක් අනුමත කරන්න.",
+      "ta": "ஆதரவு அமர்வு முடிந்ததும் கண்காணிப்பற்ற அணுகலை அணைக்கவும். நீங்களே கேட்ட ஆதரவை மட்டும் அனுமதிக்கவும்.",
+      "singlish": "Support session iwara unama unattended access off karanna. Oyama illapu support witharak approve karanna.",
+      "tanglish": "Support session mudinja unattended access off pannunga. Neengale ketta support mattum approve pannunga."
+    }
+  },
+  {
+    "group": "supportval01",
+    "split": "update_val",
+    "family": "remote_access",
+    "label": "scam",
+    "shift_type": "unseen_mechanism",
+    "texts": {
+      "en": "Our fraud specialist needs continuous access to your handset. Disable confirmation prompts in the remote helper and keep it running.",
+      "si": "අපේ වංචා විශේෂඥයාට දුරකථනයට අඛණ්ඩ ප්‍රවේශය අවශ්‍යයි. දුරස්ථ සහායකයේ තහවුරු ඉල්ලීම් අක්‍රිය කර එය දිගටම ක්‍රියාත්මක කරන්න.",
+      "ta": "எங்கள் மோசடி நிபுணருக்கு உங்கள் கைப்பேசியில் தொடர்ந்த அணுகல் தேவை. தொலைநிலை உதவியின் உறுதிப்படுத்தல் கேள்விகளை அணைத்து இயக்கி வையுங்கள்.",
+      "singlish": "Ape fraud specialist ta phone ekata continuous access one. Remote helper eke confirmation off karala run karanna.",
+      "tanglish": "Enga fraud specialist ku phone continuous access venum. Remote helper confirmation off panni run pannunga."
+    }
+  },
+  {
+    "group": "supportval01",
+    "split": "update_val",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "benign_novelty",
+    "texts": {
+      "en": "Confirmation prompts protect device access. Leave them enabled and stop a remote session you do not recognise.",
+      "si": "තහවුරු කිරීමේ ඉල්ලීම් උපාංග ප්‍රවේශය ආරක්ෂා කරයි. ඒවා සක්‍රියව තබා නොහඳුනන දුරස්ථ සැසියක් නවත්වන්න.",
+      "ta": "உறுதிப்படுத்தல் கேள்விகள் சாதன அணுகலைப் பாதுகாக்கும். அவற்றை இயக்கி வைத்து தெரியாத தொலைநிலை அமர்வை நிறுத்துங்கள்.",
+      "singlish": "Confirmation prompts device access protect karanawa. Ewa on thiyala nodanna remote session nawaththanna.",
+      "tanglish": "Confirmation prompts device access protect pannum. On vachittu theriyaatha remote session stop pannunga."
+    }
+  },
+  {
+    "group": "post01",
+    "split": "post_update_test",
+    "family": "remote_access",
+    "label": "scam",
+    "shift_type": "unseen_mechanism",
+    "texts": {
+      "en": "Activate the screen-control extension for our billing assistant, then leave your payment application open for us.",
+      "si": "අපේ බිල් සහායකයා සඳහා තිර පාලන දිගුව සක්‍රිය කර ගෙවීම් යෙදුම අප වෙනුවෙන් විවෘතව තබන්න.",
+      "ta": "எங்கள் கட்டண உதவியாளருக்குத் திரைக் கட்டுப்பாட்டு நீட்சியை இயக்கி பணம் செலுத்தும் செயலியைத் திறந்து வையுங்கள்.",
+      "singlish": "Billing assistant ta screen control extension on karala payment app arala thiyanna.",
+      "tanglish": "Billing assistant ku screen control extension on panni payment app thiranthu vaiyunga."
+    }
+  },
+  {
+    "group": "post01",
+    "split": "post_update_test",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "benign_novelty",
+    "texts": {
+      "en": "Close payment applications before a screen-sharing class. The instructor has no need to control your device.",
+      "si": "තිර බෙදා ගැනීමේ පන්තියට පෙර ගෙවීම් යෙදුම් වසා දමන්න. උපදේශකයාට උපාංගය පාලනය කිරීමට අවශ්‍ය නැත.",
+      "ta": "திரைப் பகிர்வு வகுப்பிற்கு முன் பணம் செலுத்தும் செயலிகளை மூடவும். ஆசிரியருக்கு உங்கள் சாதனத்தைக் கட்டுப்படுத்தத் தேவையில்லை.",
+      "singlish": "Screen sharing class kalin payment apps wahanna. Instructor ta device control one naha.",
+      "tanglish": "Screen sharing class mun payment apps moodunga. Instructor ku device control thevai illa."
+    }
+  },
+  {
+    "group": "post02",
+    "split": "post_update_test",
+    "family": "credential_theft",
+    "label": "scam",
+    "shift_type": "normal",
+    "texts": {
+      "en": "We can restore the expired login if you dictate your secret passphrase to the account agent now.",
+      "si": "ඔබ දැන් ගිණුම් නියෝජිතයාට රහස් මුර වාක්‍යය කියන්නේ නම් කල් ඉකුත් පිවිසුම නැවත ලබා දිය හැක.",
+      "ta": "கணக்கு முகவரிடம் ரகசிய கடவுச்சொற்றொடரை இப்போது சொன்னால் காலாவதியான உள்நுழைவை மீட்டுத் தரலாம்.",
+      "singlish": "Secret passphrase eka account agent ta dan kiwwoth expired login hadanna puluwan.",
+      "tanglish": "Secret passphrase account agent kitta ippo sonna expired login restore pannalam."
+    }
+  },
+  {
+    "group": "post02",
+    "split": "post_update_test",
+    "family": "legitimate_control",
+    "label": "legitimate",
+    "shift_type": "normal",
+    "texts": {
+      "en": "For an expired login, use the recovery flow you reach from the official app. Keep the secret passphrase to yourself.",
+      "si": "කල් ඉකුත් පිවිසුමක් සඳහා නිල යෙදුමෙන් ප්‍රතිසාධන ක්‍රියාවලිය භාවිත කරන්න. රහස් මුර වාක්‍යය ඔබ සතුවම තබා ගන්න.",
+      "ta": "காலாவதியான உள்நுழைவிற்கு அதிகாரப்பூர்வ செயலியின் மீட்பு முறையைப் பயன்படுத்துங்கள். ரகசிய கடவுச்சொற்றொடரை உங்களிடம் வைத்திருங்கள்.",
+      "singlish": "Expired login nam official app recovery use karanna. Secret passphrase oyama thiyaganna.",
+      "tanglish": "Expired login na official app recovery use pannunga. Secret passphrase ungakitta vachirunga."
+    }
+  }
+]

@@ -1,0 +1,98 @@
+{
+  "experiments": [
+    {
+      "candidate": "tfidf",
+      "C": 0.5,
+      "val_select": {
+        "n": 94,
+        "groups": 41,
+        "scam_count": 74,
+        "legitimate_count": 20,
+        "macro_f1": 0.7815447710184552,
+        "scam_precision": 0.9830508474576272,
+        "scam_recall": 0.7837837837837838,
+        "scam_f1": 0.8721804511278195,
+        "pr_auc_average_precision": 0.9774977472906976,
+        "brier": 0.1276169866323471,
+        "confusion_matrix_legitimate_scam": [
+          [
+            19,
+            1
+          ],
+          [
+            16,
+            58
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.05
+      }
+    },
+    {
+      "candidate": "tfidf",
+      "C": 2.0,
+      "val_select": {
+        "n": 94,
+        "groups": 41,
+        "scam_count": 74,
+        "legitimate_count": 20,
+        "macro_f1": 0.8094594594594595,
+        "scam_precision": 0.918918918918919,
+        "scam_recall": 0.918918918918919,
+        "scam_f1": 0.918918918918919,
+        "pr_auc_average_precision": 0.9850272233861587,
+        "brier": 0.09563948214054108,
+        "confusion_matrix_legitimate_scam": [
+          [
+            14,
+            6
+          ],
+          [
+            6,
+            68
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.3
+      },
+      "feature_and_training_seconds": 0.1974749940000038
+    }
+  ],
+  "selected": "tfidf",
+  "selection_reason": "E5 within 0.02 macro-F1 when available; otherwise best TF-IDF on val_select",
+  "candidate_b": "skipped_setup_or_download_budget",
+  "candidate_c": "skipped_one_hour_budget",
+  "operating_target_met": true,
+  "calibration": {
+    "n": 88,
+    "groups": 35,
+    "scam_count": 68,
+    "legitimate_count": 20,
+    "macro_f1": 0.8044444444444444,
+    "scam_precision": 0.9655172413793104,
+    "scam_recall": 0.8235294117647058,
+    "scam_f1": 0.8888888888888888,
+    "pr_auc_average_precision": 0.974031890190354,
+    "brier": 0.11092851310968399,
+    "confusion_matrix_legitimate_scam": [
+      [
+        18,
+        2
+      ],
+      [
+        12,
+        56
+      ]
+    ],
+    "high_risk_false_positive_rate": 0.1
+  },
+  "monitoring": {
+    "novelty_threshold": 0.828082799911499,
+    "drift_unknown_threshold": 0.15,
+    "cluster_similarity": 0.3,
+    "cluster_threshold_status": "selected_on_shift_dev_pair_f1",
+    "normal_calibration_windows": 228,
+    "normal_calibration_elevated_fraction": 0.043859649122807015
+  },
+  "runtime_parity_max_score_difference": 0.0,
+  "train_seconds": 1.5199800789996516,
+  "update": "deferred_requires_separately_approved_support_groups_and_budget"
+}

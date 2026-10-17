@@ -1,0 +1,811 @@
+{
+  "version": "svo-38879254a924",
+  "scope": "unreviewed_mixed_source_demonstration",
+  "data_sha256": "2b62e389a0d60ef66be771bbf13f3948f25fe0f75a4b40685c5f937d0995ee09",
+  "split_manifest_sha256": "0ebe49627445ce62c65ab8025c16b239ddf7c6c4b060cfbf03ff9fce9783ec97",
+  "candidate": "tfidf",
+  "test_id": {
+    "classifier_at_0_5": {
+      "n": 115,
+      "groups": 54,
+      "scam_count": 85,
+      "legitimate_count": 30,
+      "macro_f1": 0.7748251748251749,
+      "scam_precision": 0.9,
+      "scam_recall": 0.8470588235294118,
+      "scam_f1": 0.8727272727272727,
+      "pr_auc_average_precision": 0.9629563355999056,
+      "brier": 0.12286940907220399,
+      "confusion_matrix_legitimate_scam": [
+        [
+          22,
+          8
+        ],
+        [
+          13,
+          72
+        ]
+      ],
+      "high_risk_false_positive_rate": 0.26666666666666666
+    },
+    "operating_point": {
+      "n": 115,
+      "groups": 54,
+      "scam_count": 85,
+      "legitimate_count": 30,
+      "macro_f1": 0.7266617490369642,
+      "scam_precision": 0.9516129032258065,
+      "scam_recall": 0.6941176470588235,
+      "scam_f1": 0.8027210884353742,
+      "pr_auc_average_precision": 0.9629563355999056,
+      "brier": 0.12286940907220399,
+      "confusion_matrix_legitimate_scam": [
+        [
+          27,
+          3
+        ],
+        [
+          26,
+          59
+        ]
+      ],
+      "high_risk_false_positive_rate": 0.1
+    },
+    "review_per_100": 100.0,
+    "unknown_fraction": 0.09565217391304348,
+    "unseen_mechanism": {
+      "n": 0,
+      "review_routing_rate": null,
+      "high_risk_rate": null,
+      "classifier_positive_rate_at_0_5": null
+    },
+    "benign_novelty": {
+      "n": 0,
+      "review_routing_rate": null,
+      "high_risk_rate": null,
+      "classifier_positive_rate_at_0_5": null
+    }
+  },
+  "language_slices": {
+    "en": {
+      "classifier_at_0_5": {
+        "n": 67,
+        "groups": 54,
+        "scam_count": 61,
+        "legitimate_count": 6,
+        "macro_f1": 0.6231721034870641,
+        "scam_precision": 0.9242424242424242,
+        "scam_recall": 1.0,
+        "scam_f1": 0.9606299212598425,
+        "pr_auc_average_precision": 0.9963377844747443,
+        "brier": 0.05268744159253315,
+        "confusion_matrix_legitimate_scam": [
+          [
+            1,
+            5
+          ],
+          [
+            0,
+            61
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.8333333333333334
+      },
+      "operating_point": {
+        "n": 67,
+        "groups": 54,
+        "scam_count": 61,
+        "legitimate_count": 6,
+        "macro_f1": 0.7870311506675143,
+        "scam_precision": 0.9666666666666667,
+        "scam_recall": 0.9508196721311475,
+        "scam_f1": 0.9586776859504132,
+        "pr_auc_average_precision": 0.9963377844747443,
+        "brier": 0.05268744159253315,
+        "confusion_matrix_legitimate_scam": [
+          [
+            4,
+            2
+          ],
+          [
+            3,
+            58
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.3333333333333333
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.08955223880597014,
+      "unseen_mechanism": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "benign_novelty": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "reviewed": false,
+      "small_sample": true
+    },
+    "si": {
+      "classifier_at_0_5": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.4957983193277311,
+        "scam_precision": 1.0,
+        "scam_recall": 0.16666666666666666,
+        "scam_f1": 0.2857142857142857,
+        "pr_auc_average_precision": 0.773611111111111,
+        "brier": 0.22902571968430627,
+        "confusion_matrix_legitimate_scam": [
+          [
+            6,
+            0
+          ],
+          [
+            5,
+            1
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.0
+      },
+      "operating_point": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.3333333333333333,
+        "scam_precision": 0.0,
+        "scam_recall": 0.0,
+        "scam_f1": 0.0,
+        "pr_auc_average_precision": 0.773611111111111,
+        "brier": 0.22902571968430627,
+        "confusion_matrix_legitimate_scam": [
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            0
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.0
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.0,
+      "unseen_mechanism": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "benign_novelty": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "reviewed": false,
+      "small_sample": true
+    },
+    "singlish": {
+      "classifier_at_0_5": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.7482517482517483,
+        "scam_precision": 0.8,
+        "scam_recall": 0.6666666666666666,
+        "scam_f1": 0.7272727272727273,
+        "pr_auc_average_precision": 0.8819444444444444,
+        "brier": 0.19893853100833572,
+        "confusion_matrix_legitimate_scam": [
+          [
+            5,
+            1
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.16666666666666666
+      },
+      "operating_point": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.4957983193277311,
+        "scam_precision": 1.0,
+        "scam_recall": 0.16666666666666666,
+        "scam_f1": 0.2857142857142857,
+        "pr_auc_average_precision": 0.8819444444444444,
+        "brier": 0.19893853100833572,
+        "confusion_matrix_legitimate_scam": [
+          [
+            6,
+            0
+          ],
+          [
+            5,
+            1
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.0
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.08333333333333333,
+      "unseen_mechanism": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "benign_novelty": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "reviewed": false,
+      "small_sample": true
+    },
+    "ta": {
+      "classifier_at_0_5": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.3333333333333333,
+        "scam_precision": 0.0,
+        "scam_recall": 0.0,
+        "scam_f1": 0.0,
+        "pr_auc_average_precision": 0.8374999999999999,
+        "brier": 0.24383275456105977,
+        "confusion_matrix_legitimate_scam": [
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            0
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.0
+      },
+      "operating_point": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.3333333333333333,
+        "scam_precision": 0.0,
+        "scam_recall": 0.0,
+        "scam_f1": 0.0,
+        "pr_auc_average_precision": 0.8374999999999999,
+        "brier": 0.24383275456105977,
+        "confusion_matrix_legitimate_scam": [
+          [
+            6,
+            0
+          ],
+          [
+            6,
+            0
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.0
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.0,
+      "unseen_mechanism": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "benign_novelty": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "reviewed": false,
+      "small_sample": true
+    },
+    "tanglish": {
+      "classifier_at_0_5": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.8285714285714285,
+        "scam_precision": 0.75,
+        "scam_recall": 1.0,
+        "scam_f1": 0.8571428571428571,
+        "pr_auc_average_precision": 0.6496031746031746,
+        "brier": 0.21152994946327638,
+        "confusion_matrix_legitimate_scam": [
+          [
+            4,
+            2
+          ],
+          [
+            0,
+            6
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.3333333333333333
+      },
+      "operating_point": {
+        "n": 12,
+        "groups": 3,
+        "scam_count": 6,
+        "legitimate_count": 6,
+        "macro_f1": 0.29411764705882354,
+        "scam_precision": 0.0,
+        "scam_recall": 0.0,
+        "scam_f1": 0.0,
+        "pr_auc_average_precision": 0.6496031746031746,
+        "brier": 0.21152994946327638,
+        "confusion_matrix_legitimate_scam": [
+          [
+            5,
+            1
+          ],
+          [
+            6,
+            0
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.16666666666666666
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.3333333333333333,
+      "unseen_mechanism": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "benign_novelty": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "reviewed": false,
+      "small_sample": true
+    }
+  },
+  "source_slices": {
+    "team-synthetic-v1": {
+      "classifier_at_0_5": {
+        "n": 60,
+        "groups": 3,
+        "scam_count": 30,
+        "legitimate_count": 30,
+        "macro_f1": 0.6475524475524476,
+        "scam_precision": 0.68,
+        "scam_recall": 0.5666666666666667,
+        "scam_f1": 0.6181818181818182,
+        "pr_auc_average_precision": 0.6475503295182458,
+        "brier": 0.226163610754648,
+        "confusion_matrix_legitimate_scam": [
+          [
+            22,
+            8
+          ],
+          [
+            13,
+            17
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.26666666666666666
+      },
+      "operating_point": {
+        "n": 60,
+        "groups": 3,
+        "scam_count": 30,
+        "legitimate_count": 30,
+        "macro_f1": 0.4334093129273852,
+        "scam_precision": 0.5714285714285714,
+        "scam_recall": 0.13333333333333333,
+        "scam_f1": 0.21621621621621623,
+        "pr_auc_average_precision": 0.6475503295182458,
+        "brier": 0.226163610754648,
+        "confusion_matrix_legitimate_scam": [
+          [
+            27,
+            3
+          ],
+          [
+            26,
+            4
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.1
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.18333333333333332,
+      "unseen_mechanism": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "benign_novelty": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      }
+    },
+    "user-csv-unverified": {
+      "classifier_at_0_5": {
+        "n": 55,
+        "groups": 51,
+        "scam_count": 55,
+        "legitimate_count": 0,
+        "macro_f1": 0.5,
+        "scam_precision": 1.0,
+        "scam_recall": 1.0,
+        "scam_f1": 1.0,
+        "pr_auc_average_precision": 1.0,
+        "brier": 0.010184825418628663,
+        "confusion_matrix_legitimate_scam": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            55
+          ]
+        ],
+        "high_risk_false_positive_rate": null
+      },
+      "operating_point": {
+        "n": 55,
+        "groups": 51,
+        "scam_count": 55,
+        "legitimate_count": 0,
+        "macro_f1": 0.5,
+        "scam_precision": 1.0,
+        "scam_recall": 1.0,
+        "scam_f1": 1.0,
+        "pr_auc_average_precision": 1.0,
+        "brier": 0.010184825418628663,
+        "confusion_matrix_legitimate_scam": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            55
+          ]
+        ],
+        "high_risk_false_positive_rate": null
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.0,
+      "unseen_mechanism": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      },
+      "benign_novelty": {
+        "n": 0,
+        "review_routing_rate": null,
+        "high_risk_rate": null,
+        "classifier_positive_rate_at_0_5": null
+      }
+    }
+  },
+  "human_validated_languages": [],
+  "shift_demo": {
+    "classifier_at_0_5": {
+      "n": 120,
+      "groups": 6,
+      "scam_count": 60,
+      "legitimate_count": 60,
+      "macro_f1": 0.6097285067873304,
+      "scam_precision": 0.6590909090909091,
+      "scam_recall": 0.48333333333333334,
+      "scam_f1": 0.5576923076923077,
+      "pr_auc_average_precision": 0.7513645756271221,
+      "brier": 0.21001194769555573,
+      "confusion_matrix_legitimate_scam": [
+        [
+          45,
+          15
+        ],
+        [
+          31,
+          29
+        ]
+      ],
+      "high_risk_false_positive_rate": 0.25
+    },
+    "operating_point": {
+      "n": 120,
+      "groups": 6,
+      "scam_count": 60,
+      "legitimate_count": 60,
+      "macro_f1": 0.5248484848484849,
+      "scam_precision": 0.8666666666666667,
+      "scam_recall": 0.21666666666666667,
+      "scam_f1": 0.3466666666666667,
+      "pr_auc_average_precision": 0.7513645756271221,
+      "brier": 0.21001194769555573,
+      "confusion_matrix_legitimate_scam": [
+        [
+          58,
+          2
+        ],
+        [
+          47,
+          13
+        ]
+      ],
+      "high_risk_false_positive_rate": 0.03333333333333333
+    },
+    "review_per_100": 99.16666666666667,
+    "unknown_fraction": 0.13333333333333333,
+    "unseen_mechanism": {
+      "n": 30,
+      "review_routing_rate": 1.0,
+      "high_risk_rate": 0.23333333333333334,
+      "classifier_positive_rate_at_0_5": 0.43333333333333335
+    },
+    "benign_novelty": {
+      "n": 30,
+      "review_routing_rate": 1.0,
+      "high_risk_rate": 0.06666666666666667,
+      "classifier_positive_rate_at_0_5": 0.3333333333333333
+    }
+  },
+  "drift": {
+    "messages": 120,
+    "shift_onset_1_based": 61,
+    "normal_window_count": 9,
+    "normal_false_alert_rate": 0.1111111111111111,
+    "fully_shifted_window_count": 9,
+    "shifted_window_detection_rate": 0.2222222222222222,
+    "first_drift_alert_1_based": 80,
+    "reports_after_onset_to_alert": 20,
+    "shifted_reports_to_alert": 20,
+    "shift_detected": true,
+    "first_candidate_alert_1_based": 13,
+    "candidate_clusters": 0,
+    "candidate_alert_precision_scenario_proxy": null,
+    "mean_candidate_family_purity": null,
+    "review_per_100": 99.16666666666667,
+    "unresolved_clusters": 26,
+    "replay_seconds": 0.5286290289996032,
+    "response": "persisted review queue and drift alerts; no automatic retraining",
+    "unique_text_is_not_independent_source": true
+  },
+  "benign_replay": {
+    "messages": 60,
+    "shift_onset_1_based": 31,
+    "normal_window_count": 3,
+    "normal_false_alert_rate": 0.3333333333333333,
+    "fully_shifted_window_count": 3,
+    "shifted_window_detection_rate": 0.6666666666666666,
+    "first_drift_alert_1_based": 50,
+    "reports_after_onset_to_alert": 20,
+    "shifted_reports_to_alert": 20,
+    "shift_detected": true,
+    "first_candidate_alert_1_based": 10,
+    "candidate_clusters": 0,
+    "candidate_alert_precision_scenario_proxy": null,
+    "mean_candidate_family_purity": null,
+    "review_per_100": 98.33333333333333,
+    "unresolved_clusters": 16,
+    "replay_seconds": 0.26835807299994485,
+    "response": "persisted review queue and drift alerts; no automatic retraining",
+    "unique_text_is_not_independent_source": true
+  },
+  "update": {
+    "status": "not_run_no_approved_support_or_budget",
+    "before": {
+      "classifier_at_0_5": {
+        "n": 40,
+        "groups": 2,
+        "scam_count": 20,
+        "legitimate_count": 20,
+        "macro_f1": 0.5523370638578011,
+        "scam_precision": 0.6363636363636364,
+        "scam_recall": 0.35,
+        "scam_f1": 0.45161290322580644,
+        "pr_auc_average_precision": 0.6884173647530484,
+        "brier": 0.2385929599819243,
+        "confusion_matrix_legitimate_scam": [
+          [
+            16,
+            4
+          ],
+          [
+            13,
+            7
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.2
+      },
+      "operating_point": {
+        "n": 40,
+        "groups": 2,
+        "scam_count": 20,
+        "legitimate_count": 20,
+        "macro_f1": 0.5054545454545455,
+        "scam_precision": 0.8,
+        "scam_recall": 0.2,
+        "scam_f1": 0.32,
+        "pr_auc_average_precision": 0.6884173647530484,
+        "brier": 0.2385929599819243,
+        "confusion_matrix_legitimate_scam": [
+          [
+            19,
+            1
+          ],
+          [
+            16,
+            4
+          ]
+        ],
+        "high_risk_false_positive_rate": 0.05
+      },
+      "review_per_100": 100.0,
+      "unknown_fraction": 0.05,
+      "unseen_mechanism": {
+        "n": 10,
+        "review_routing_rate": 1.0,
+        "high_risk_rate": 0.2,
+        "classifier_positive_rate_at_0_5": 0.2
+      },
+      "benign_novelty": {
+        "n": 10,
+        "review_routing_rate": 1.0,
+        "high_risk_rate": 0.1,
+        "classifier_positive_rate_at_0_5": 0.2
+      }
+    },
+    "after": null
+  },
+  "runtime": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "cold_start_seconds": 0.09472197099967161,
+    "warm_p50_ms": 1.3862629998584453,
+    "warm_p95_ms": 1.5384165000341452,
+    "latency_samples": 50,
+    "peak_process_rss_kib_linux": 137152,
+    "bundle_bytes": 515790
+  },
+  "targets": {
+    "precision": 0.9,
+    "recall": 0.8,
+    "warm_p95_ms": 2000,
+    "normal_false_alert_rate": 0.05
+  },
+  "development": {
+    "experiments": [
+      {
+        "candidate": "tfidf",
+        "C": 0.5,
+        "val_select": {
+          "n": 79,
+          "groups": 40,
+          "scam_count": 59,
+          "legitimate_count": 20,
+          "macro_f1": 0.7629302736098853,
+          "scam_precision": 0.9772727272727273,
+          "scam_recall": 0.7288135593220338,
+          "scam_f1": 0.8349514563106796,
+          "pr_auc_average_precision": 0.9652699771054585,
+          "brier": 0.14582093060016632,
+          "confusion_matrix_legitimate_scam": [
+            [
+              19,
+              1
+            ],
+            [
+              16,
+              43
+            ]
+          ],
+          "high_risk_false_positive_rate": 0.05
+        }
+      },
+      {
+        "candidate": "tfidf",
+        "C": 2.0,
+        "val_select": {
+          "n": 79,
+          "groups": 40,
+          "scam_count": 59,
+          "legitimate_count": 20,
+          "macro_f1": 0.7991525423728814,
+          "scam_precision": 0.8983050847457628,
+          "scam_recall": 0.8983050847457628,
+          "scam_f1": 0.8983050847457628,
+          "pr_auc_average_precision": 0.9765220697309087,
+          "brier": 0.11262793838977814,
+          "confusion_matrix_legitimate_scam": [
+            [
+              14,
+              6
+            ],
+            [
+              6,
+              53
+            ]
+          ],
+          "high_risk_false_positive_rate": 0.3
+        },
+        "feature_and_training_seconds": 0.17503920899980585
+      }
+    ],
+    "selected": "tfidf",
+    "selection_reason": "E5 within 0.02 macro-F1 when available; otherwise best TF-IDF on val_select",
+    "candidate_b": "skipped_setup_or_download_budget",
+    "candidate_c": "skipped_one_hour_budget",
+    "operating_target_met": true,
+    "calibration": {
+      "n": 88,
+      "groups": 35,
+      "scam_count": 68,
+      "legitimate_count": 20,
+      "macro_f1": 0.8044444444444444,
+      "scam_precision": 0.9655172413793104,
+      "scam_recall": 0.8235294117647058,
+      "scam_f1": 0.8888888888888888,
+      "pr_auc_average_precision": 0.9749178235366972,
+      "brier": 0.1108047291636467,
+      "confusion_matrix_legitimate_scam": [
+        [
+          18,
+          2
+        ],
+        [
+          12,
+          56
+        ]
+      ],
+      "high_risk_false_positive_rate": 0.1
+    },
+    "monitoring": {
+      "novelty_threshold": 0.823771595954895,
+      "drift_unknown_threshold": 0.15,
+      "cluster_similarity": 0.3,
+      "cluster_threshold_status": "selected_on_shift_dev_pair_f1",
+      "normal_calibration_windows": 228,
+      "normal_calibration_elevated_fraction": 0.0
+    },
+    "runtime_parity_max_score_difference": 0.0,
+    "train_seconds": 1.3659642800002985,
+    "update": "deferred_requires_separately_approved_support_groups_and_budget"
+  },
+  "limitations": [
+    "No real-world prevalence or loss-prevention claims",
+    "Uncalibrated model scores",
+    "Distinct text is not proof of independent reporters",
+    "One predetermined shifted replay",
+    "Small language slices; unreviewed data do not establish language quality",
+    "No controlled model update completed",
+    "Lexical monitoring if TF-IDF selected"
+  ]
+}

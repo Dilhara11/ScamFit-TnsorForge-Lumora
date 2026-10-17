@@ -1,0 +1,22 @@
+{
+  "version": "svo-38879254a924",
+  "unit_tests_passed": 5,
+  "zip_extract_load_parity_languages": [
+    "en",
+    "si",
+    "ta",
+    "singlish",
+    "tanglish"
+  ],
+  "max_score_difference": 0.0,
+  "tamper_rejected": true,
+  "response_demonstration": {
+    "cluster_id": 1,
+    "status": "rejected",
+    "automatic_retraining": false
+  },
+  "response_is_human_review": false,
+  "live_http_test": "blocked: sandbox denies socket creation; real HTTP handlers tested in memory",
+  "encoder": "download timed out at 600 seconds; resume rejected by automatic approval usage limit",
+  "archive_sha256": "a9864332a55a509cb6a87b66fb6c943f993699577a52c02e5153b5dfbce7a1b1"
+}

@@ -1,0 +1,33 @@
+{
+  "seed": 42,
+  "c_values": [
+    0.5,
+    2.0
+  ],
+  "max_features": 50000,
+  "min_df": 2,
+  "encoder": "intfloat/multilingual-e5-small",
+  "max_length": 256,
+  "embedding_batch_size": 16,
+  "window_size": 20,
+  "window_stride": 5,
+  "consecutive_windows": 2,
+  "min_cluster_unique": 3,
+  "max_clusters": 100,
+  "precision_target": 0.9,
+  "recall_target": 0.8,
+  "low_risk_threshold": 0.2,
+  "simulation_only": true,
+  "novelty_threshold": 0.823771595954895,
+  "drift_unknown_threshold": 0.15,
+  "cluster_similarity": 0.3,
+  "cluster_threshold_status": "selected_on_shift_dev_pair_f1",
+  "normal_calibration_windows": 228,
+  "normal_calibration_elevated_fraction": 0.0,
+  "high_risk_threshold": 0.5920259952545166,
+  "operating_target_met": true,
+  "scope": "unreviewed_mixed_source_demonstration",
+  "scores_calibrated": false,
+  "monitor_representation": "tfidf",
+  "window_mode": "short_20_report_demo"
+}
