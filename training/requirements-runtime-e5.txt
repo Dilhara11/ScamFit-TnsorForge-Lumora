@@ -1,0 +1,10 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+# Inference for v2 bundles that embed the frozen E5 encoder (e5, e5_tfidf).
+# Versions match requirements-training.txt, which produced those bundles.
+-r requirements-runtime.txt
+torch==2.14.1+cpu
+sentence-transformers==6.1.0
+transformers==5.20.1
+tokenizers==0.23.3
+safetensors==0.8.0
+huggingface_hub==1.33.0

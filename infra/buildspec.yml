@@ -1,0 +1,40 @@
+# CodeBuild: build app/server/Dockerfile from the repository root, prove the image
+# starts and reports ready, then push it as <commit-sha> and latest.
+version: 0.2
+
+env:
+  variables:
+    DOCKER_BUILDKIT: '1'
+
+phases:
+  pre_build:
+    commands:
+      - REGISTRY=$(echo "$IMAGE_REPO_URI" | cut -d/ -f1)
+      - aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$REGISTRY"
+      - |
+        if [ -n "${DOCKERHUB_USERNAME:-}" ]; then
+          echo "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+        fi
+      - TAG=$(echo "$CODEBUILD_RESOLVED_SOURCE_VERSION" | cut -c1-12)
+      - echo "Building $IMAGE_REPO_URI:$TAG"
+
+  build:
+    commands:
+      # The Dockerfile restores the 449 MB encoder at the pinned revision and runs verify_runtime.py.
+      - docker build -f app/server/Dockerfile -t "$IMAGE_REPO_URI:$TAG" .
+      # Start the image the same way the server does and wait for /health/ready.
+      - docker run -d --name smoke -p 127.0.0.1:8000:8000 --read-only --tmpfs /tmp:size=32m,mode=1777 -v smoke-data:/data --cap-drop ALL "$IMAGE_REPO_URI:$TAG"
+      - |
+        for i in $(seq 1 60); do
+          if curl -fsS http://127.0.0.1:8000/health/ready >/dev/null; then echo ready; break; fi
+          if [ "$i" = 60 ]; then docker logs smoke; exit 1; fi
+          sleep 3
+        done
+      - docker rm -f smoke
+      - docker tag "$IMAGE_REPO_URI:$TAG" "$IMAGE_REPO_URI:latest"
+      - docker push "$IMAGE_REPO_URI:$TAG"
+      - docker push "$IMAGE_REPO_URI:latest"
+
+  post_build:
+    commands:
+      - echo "Pushed $IMAGE_REPO_URI:$TAG (also tagged latest)"

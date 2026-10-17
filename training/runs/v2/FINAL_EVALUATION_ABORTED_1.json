@@ -1,0 +1,7 @@
+{
+  "selected": "e5_tfidf",
+  "started_unix": 1792219167.1643004,
+  "status": "aborted_before_any_heldout_prediction",
+  "error": "ValueError: Artifact hash mismatch/missing file: decision_config.json (v1 baseline CRLF checkout) raised in Runtime() for the first bundle, before evaluate() ran",
+  "evidence": "no comparison.json, scorecard or replay database was produced"
+}

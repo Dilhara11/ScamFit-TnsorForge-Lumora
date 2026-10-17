@@ -28,7 +28,7 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(title='Scam Variant Observatory API', version='1.0.0', lifespan=lifespan,
                   docs_url=None, redoc_url=None, redirect_slashes=False,
-                  description='Private unreviewed demonstration. Uncalibrated scores; lexical novelty.')
+                  description='Private unreviewed demonstration. See GET /api/v1/model for representation, calibration and limitations.')
     app.state.settings = settings
     app.add_middleware(Boundary, settings=settings)
     if settings.allowed_origins:

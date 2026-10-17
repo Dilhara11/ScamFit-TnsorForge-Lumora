@@ -6,8 +6,8 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class Settings:
-    model_dir: Path = Path('training/runs/final/bundle')
-    expected_version: str = 'svo-38879254a924'
+    model_dir: Path = Path('training/runs/v2/candidates/e5_tfidf/bundle')
+    expected_version: str = 'svo-e2a46f504b19'
     db_path: Path = Path('app/server/data/observatory.sqlite')
     mode: str = 'local_demo'
     credentials: dict[str, str] = field(default_factory=dict, repr=False)  # alias -> key
@@ -39,8 +39,8 @@ class Settings:
     def from_env(cls):
         try:
             return cls(
-                model_dir=Path(os.getenv('SVO_MODEL_DIR', 'training/runs/final/bundle')),
-                expected_version=os.getenv('SVO_EXPECTED_MODEL_VERSION', 'svo-38879254a924'),
+                model_dir=Path(os.getenv('SVO_MODEL_DIR', 'training/runs/v2/candidates/e5_tfidf/bundle')),
+                expected_version=os.getenv('SVO_EXPECTED_MODEL_VERSION', 'svo-e2a46f504b19'),
                 db_path=Path(os.getenv('SVO_DB_PATH', 'app/server/data/observatory.sqlite')),
                 mode=os.getenv('SVO_MODE', 'local_demo'),
                 credentials=json.loads(os.getenv('SVO_CREDENTIALS_JSON', '{}')),

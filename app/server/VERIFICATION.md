@@ -1,5 +1,28 @@
 # API engine verification
 
+## v2 engine (`svo-e2a46f504b19`, `e5_tfidf`) — 2026-10-17
+
+Verified on the Windows 11 development host (Python 3.12.10, CPU), not in Docker. Docker is not installed on that host, so **the image build, `docker compose up --wait`, the read-only/non-root container, and `--network none` startup have not been re-verified for v2**. Run those before relying on the container.
+
+| Check | Result |
+|---|---|
+| API suite (`pytest app/server/tests`) against the v2 bundle | **15 passed, 1 skipped** (container smoke needs `SVO_TEST_URL`), 112 s |
+| Prediction and ordered monitoring parity, multilingual fixtures and private v2 shift replay | Passed (API output equals frozen runtime) |
+| Windows-sealed manifest (backslash paths) verifies; traversal via `..\` rejected; tampering rejected | Passed |
+| Representation allowlist (`tfidf_char_raw` refused); `v2.py` source hash enforced | Passed |
+| Real HTTP smoke (`scripts/smoke.py`) against local Uvicorn on 127.0.0.1 | **Passed** |
+| `/api/v1/model` | Reports `e5_tfidf`, `scores_calibrated: true`, v2 held-out limitations |
+| Dev lock install (`requirements-dev.lock`, clean venv) | Passed |
+| Engine startup to ready (local Uvicorn, warm disk cache) | ~10 s; cold first import measured up to ~26–45 s, hence the 120 s healthcheck start period |
+| Resident memory after load + 200 predictions | **~1.19 GB (peak 1.23 GB)**: exceeds the old 1 GiB limit; Compose now allows 2 GiB |
+| Prediction HTTP p50 / p95 / max, concurrency 4, 200 samples | 281 / 336 / 443 ms on this host (single engine thread, so requests queue; host was under heavy memory pressure). v1 measured 29 / 33 ms in the Linux container. Not directly comparable; re-measure in the container |
+
+Changes behind these results: portable manifest verification and one verified load (`load_runtime`); representation allowlist with per-representation source modules; metadata taken from the bundle instead of hard-coded TF-IDF claims; a portable single-writer lock (fcntl or msvcrt); E5 inference dependencies in the locks; `v2.py` and the v2 bundle in the image; offline Hugging Face settings; fixtures that need a cluster now use a review-routed message, because v2 correctly sends ordinary text to low risk.
+
+The v1 results below and `verification.json` describe the previous image and model and are kept as historical evidence.
+
+## v1 engine (`svo-38879254a924`)
+
 Verified on 2026-10-17 using Docker Desktop 4.94.0, Docker Engine 29.8.2, Compose 5.5.1, and WSL2 Linux x86_64. The container benchmark profile was capped at 2 CPUs and 1 GiB memory. These are local demonstration results, not a production capacity claim.
 
 ## Identity

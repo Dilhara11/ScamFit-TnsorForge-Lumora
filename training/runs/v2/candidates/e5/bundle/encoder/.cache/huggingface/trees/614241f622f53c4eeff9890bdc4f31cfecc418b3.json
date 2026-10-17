@@ -1,0 +1,207 @@
+{
+ "format_version": 1,
+ "files": {
+  ".eval_results/ArguAna.yaml": {
+   "size": 575,
+   "blob_id": "0993aeb879cb096bdb0358a3102ffac5ccf1808e"
+  },
+  ".eval_results/BrightAopsRetrieval.yaml": {
+   "size": 641,
+   "blob_id": "76e50b5775128f36c7a170f29fc3bf6a0ffea3cd"
+  },
+  ".eval_results/BrightBiologyLongRetrieval.yaml": {
+   "size": 651,
+   "blob_id": "f31af7cd5d4bf4e195fb7acd5ea79214e4df5994"
+  },
+  ".eval_results/BrightBiologyRetrieval.yaml": {
+   "size": 647,
+   "blob_id": "89b791d887b5bbf699590bebc3c98b1003c58cef"
+  },
+  ".eval_results/BrightEarthScienceLongRetrieval.yaml": {
+   "size": 663,
+   "blob_id": "9553c207553623b11fb3e4a764db8697d504e770"
+  },
+  ".eval_results/BrightEarthScienceRetrieval.yaml": {
+   "size": 659,
+   "blob_id": "c2b6879f8670308b57e4a9524801c5863606cc24"
+  },
+  ".eval_results/BrightEconomicsLongRetrieval.yaml": {
+   "size": 655,
+   "blob_id": "6ce3e2769c04cd3107006e65d5b0ddf3550f1229"
+  },
+  ".eval_results/BrightEconomicsRetrieval.yaml": {
+   "size": 651,
+   "blob_id": "5e4aed179aa8a9fb04881d5a996925ea4fd82890"
+  },
+  ".eval_results/BrightLeetcodeRetrieval.yaml": {
+   "size": 651,
+   "blob_id": "a817cfd302405e4f63eedc68d4cf651caa948fd8"
+  },
+  ".eval_results/BrightPonyLongRetrieval.yaml": {
+   "size": 645,
+   "blob_id": "76029d8b9dfbbe693c56bc869468253da370e689"
+  },
+  ".eval_results/BrightPonyRetrieval.yaml": {
+   "size": 641,
+   "blob_id": "29d3a7c86c02858b6fbde82cfd04d284786a9b3e"
+  },
+  ".eval_results/BrightPsychologyLongRetrieval.yaml": {
+   "size": 655,
+   "blob_id": "addea8b83babd719e6f3733bc10447b45e2add3c"
+  },
+  ".eval_results/BrightPsychologyRetrieval.yaml": {
+   "size": 653,
+   "blob_id": "73d3939aa952c2d7106ed8a843ed166fa0a662ed"
+  },
+  ".eval_results/BrightRoboticsLongRetrieval.yaml": {
+   "size": 653,
+   "blob_id": "56e056ddf69507cc5c87886cc8611343e0a16af2"
+  },
+  ".eval_results/BrightRoboticsRetrieval.yaml": {
+   "size": 647,
+   "blob_id": "57805dc810c092c51f68a1ad0291db66a20f4631"
+  },
+  ".eval_results/BrightStackoverflowLongRetrieval.yaml": {
+   "size": 665,
+   "blob_id": "7a572b5be139ecccd2fc97a3b954dcab299150a0"
+  },
+  ".eval_results/BrightStackoverflowRetrieval.yaml": {
+   "size": 659,
+   "blob_id": "afee42a8e817acd9c2f50e834f621f8b4e9a8be4"
+  },
+  ".eval_results/BrightSustainableLivingLongRetrieval.yaml": {
+   "size": 673,
+   "blob_id": "a98042c144a296861ca987ccfe3a0a576832e354"
+  },
+  ".eval_results/BrightSustainableLivingRetrieval.yaml": {
+   "size": 667,
+   "blob_id": "878485735bf43d2c0e30f2a481453feac4163c84"
+  },
+  ".eval_results/BrightTheoremQAQuestionsRetrieval.yaml": {
+   "size": 669,
+   "blob_id": "65bada8f2ffdc27fd788a7c727a3107d1878e867"
+  },
+  ".eval_results/BrightTheoremQATheoremsRetrieval.yaml": {
+   "size": 667,
+   "blob_id": "ca4689e0177da84bd0b0256dda8cf23e47da65f6"
+  },
+  ".gitattributes": {
+   "size": 1570,
+   "blob_id": "52373fe24473b1aa44333d318f578ae6bf04b49b"
+  },
+  "1_Pooling/config.json": {
+   "size": 200,
+   "blob_id": "acbd4014202bf4dbc6c03229bcbeef7c4feafb58"
+  },
+  "README.md": {
+   "size": 497538,
+   "blob_id": "e56327af55e9742caf76bff9ba83b6904cd2003d"
+  },
+  "config.json": {
+   "size": 655,
+   "blob_id": "60a2a84020f1d74cc53ea9e8c4e91cf4af6c2b68"
+  },
+  "model.safetensors": {
+   "size": 470641600,
+   "blob_id": "fe4cbb2a14318b79019748874f6ca4a61a02c6f6",
+   "lfs_sha256": "1a55775f53449dac10a2bcbc312469fac40b96d53198c407081a831f81c98477",
+   "lfs_size": 470641600,
+   "xet_hash": "f63b59f1a0edbaa6f315e4d21ef0193f595e9c7c04c071f01aa9d2ec5c100186"
+  },
+  "modules.json": {
+   "size": 387,
+   "blob_id": "ac2039abdf6ff023b27c919bb9675cfe378cb10f"
+  },
+  "onnx/config.json": {
+   "size": 653,
+   "blob_id": "698e598c24523f3857295b11abec0703d19ea180"
+  },
+  "onnx/model.onnx": {
+   "size": 470268510,
+   "blob_id": "f9c7ec44162ecb2ae1340185b24a43d83d606a00",
+   "lfs_sha256": "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665",
+   "lfs_size": 470268510,
+   "xet_hash": "cdcc2007f06ae8bf8fa4fab3a9f30853db998fa26d9d22da75bcd7e7f294c6ea"
+  },
+  "onnx/model_O4.onnx": {
+   "size": 235052531,
+   "blob_id": "9780470f6a8c5cd7e64b00254f4fe5751b12546c",
+   "lfs_sha256": "4654c156f3e4171abc9c716cdb771bf9116455d15ac1aab364aeeede0e3205b0",
+   "lfs_size": 235052531,
+   "xet_hash": "726eca882df013b2c6df93dea1de3e34fe7fe9d2c08f5c7bbbbe14e99e5b7acd"
+  },
+  "onnx/model_qint8_avx512_vnni.onnx": {
+   "size": 118346824,
+   "blob_id": "93d054f3dab6f4088e81383667bf030f4c93c9ef",
+   "lfs_sha256": "dd476dd0c2514e9b9be83aeb3853fac0763e0bdf4a71645407587d77c48a2d88",
+   "lfs_size": 118346824,
+   "xet_hash": "ff30093fa1ecccb651161b451f777ca0d854dd6e98bd6d76163e0c476149e0dd"
+  },
+  "onnx/sentencepiece.bpe.model": {
+   "size": 5069051,
+   "blob_id": "7a3f40a75f870bc1f21700cd414dc2acc431583c",
+   "lfs_sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+   "lfs_size": 5069051,
+   "xet_hash": "8b03b9e079abc849bdd27d0942fa6a77f9e7836db188512be97e4b3d52f415a8"
+  },
+  "onnx/special_tokens_map.json": {
+   "size": 167,
+   "blob_id": "e0b1d18ecd0ae4ff1d47bd297d910c0cf83e504b"
+  },
+  "onnx/tokenizer.json": {
+   "size": 17082730,
+   "blob_id": "c9b2fea3119ca8886380e5f47bffc5ea7a6e0ffa",
+   "lfs_sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+   "lfs_size": 17082730,
+   "xet_hash": "1c8f7c8fd9b7c56a43be9844713bdd468b7a17ed5170311ce768adfc6e2d41ea"
+  },
+  "onnx/tokenizer_config.json": {
+   "size": 443,
+   "blob_id": "059214673d9d6d2ee319411e2ffec8c024b816d5"
+  },
+  "openvino/openvino_model.bin": {
+   "size": 470027936,
+   "blob_id": "74ef43d45a413d5262ac8fe0a1848b37c57d18bb",
+   "lfs_sha256": "22f5a10ec005a1606ec42758dedd52b59dfcb6e3d85de0b6b86946d0bc6cf232",
+   "lfs_size": 470027936,
+   "xet_hash": "46d33abd0f87353d1d8d0b5c0701015cfd507ec86f2b1c3a715c05e26f9f95fb"
+  },
+  "openvino/openvino_model.xml": {
+   "size": 363385,
+   "blob_id": "141b2bf7854f27e1b3369fc19c6377bb799bb215"
+  },
+  "pytorch_model.bin": {
+   "size": 470681649,
+   "blob_id": "e25fa3351e29625098db117ea68e791354a62d62",
+   "lfs_sha256": "f0ccb64a2edc689fce7b1895f25146740e4075c3da28c8d0e672a8ba49c51167",
+   "lfs_size": 470681649,
+   "xet_hash": "63f4620ad95c13510033452ea38920b1df4e613e449b0cc2e3ad49a724abd5d7"
+  },
+  "sentence_bert_config.json": {
+   "size": 57,
+   "blob_id": "4eca68d85ecd3034cf4174d8a4033a75344ea62d"
+  },
+  "sentencepiece.bpe.model": {
+   "size": 5069051,
+   "blob_id": "7a3f40a75f870bc1f21700cd414dc2acc431583c",
+   "lfs_sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+   "lfs_size": 5069051,
+   "xet_hash": "8b03b9e079abc849bdd27d0942fa6a77f9e7836db188512be97e4b3d52f415a8"
+  },
+  "special_tokens_map.json": {
+   "size": 167,
+   "blob_id": "e0b1d18ecd0ae4ff1d47bd297d910c0cf83e504b"
+  },
+  "tokenizer.json": {
+   "size": 17082730,
+   "blob_id": "c9b2fea3119ca8886380e5f47bffc5ea7a6e0ffa",
+   "lfs_sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+   "lfs_size": 17082730,
+   "xet_hash": "1c8f7c8fd9b7c56a43be9844713bdd468b7a17ed5170311ce768adfc6e2d41ea"
+  },
+  "tokenizer_config.json": {
+   "size": 443,
+   "blob_id": "059214673d9d6d2ee319411e2ffec8c024b816d5"
+  }
+ }
+}

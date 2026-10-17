@@ -1,0 +1,168 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  SVO API image pipeline: an ECR repository and a CodeBuild project that builds
+  app/server/Dockerfile from GitHub inside AWS and pushes the image to ECR.
+
+Parameters:
+  ProjectName:
+    Type: String
+    Default: svo
+    AllowedPattern: '^[a-z][a-z0-9-]{1,20}$'
+  RepositoryUrl:
+    Type: String
+    Description: HTTPS clone URL of the GitHub repository.
+    Default: https://github.com/Dilhara11/ScamFit-TnsorForge-Lumora.git
+  BranchName:
+    Type: String
+    Default: main
+    Description: Branch (or tag/commit) CodeBuild builds by default.
+  GitHubAccessToken:
+    Type: String
+    NoEcho: true
+    Default: ''
+    Description: >-
+      Optional GitHub token so CodeBuild can clone a private repository. Leave empty
+      if the repository is public or GitHub is already connected in the CodeBuild
+      console (source credentials are account-wide, one per region).
+  DockerHubSecretArn:
+    Type: String
+    Default: ''
+    Description: >-
+      Optional Secrets Manager ARN holding JSON {"username": "...", "token": "..."}.
+      Avoids Docker Hub anonymous pull limits on the python base image.
+  ImagesToKeep:
+    Type: Number
+    Default: 10
+    MinValue: 2
+
+Conditions:
+  HasGitHubToken: !Not [!Equals [!Ref GitHubAccessToken, '']]
+  HasDockerHub: !Not [!Equals [!Ref DockerHubSecretArn, '']]
+
+Resources:
+  Repository:
+    Type: AWS::ECR::Repository
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      RepositoryName: !Sub '${ProjectName}-api'
+      # `latest` is moved on every build; commit-SHA tags are never reused.
+      ImageTagMutability: MUTABLE
+      ImageScanningConfiguration:
+        ScanOnPush: true
+      EncryptionConfiguration:
+        EncryptionType: AES256
+      LifecyclePolicy:
+        LifecyclePolicyText: !Sub |
+          {"rules": [{"rulePriority": 1, "description": "Keep the newest ${ImagesToKeep} images",
+            "selection": {"tagStatus": "any", "countType": "imageCountMoreThan", "countNumber": ${ImagesToKeep}},
+            "action": {"type": "expire"}}]}
+
+  GitHubCredential:
+    Type: AWS::CodeBuild::SourceCredential
+    Condition: HasGitHubToken
+    Properties:
+      AuthType: PERSONAL_ACCESS_TOKEN
+      ServerType: GITHUB
+      Token: !Ref GitHubAccessToken
+
+  BuildLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/codebuild/${ProjectName}-api'
+      RetentionInDays: 30
+
+  BuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: {Service: codebuild.amazonaws.com}
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: build
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub '${BuildLogs.Arn}:*'
+              - Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:BatchGetImage
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                  - ecr:PutImage
+                Resource: !GetAtt Repository.Arn
+              - !If
+                - HasDockerHub
+                - Effect: Allow
+                  Action: secretsmanager:GetSecretValue
+                  Resource: !Ref DockerHubSecretArn
+                - !Ref AWS::NoValue
+
+  Build:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: !Sub '${ProjectName}-api-image'
+      Description: Builds the SVO API image (fetches the pinned E5 weights) and pushes it to ECR.
+      ServiceRole: !GetAtt BuildRole.Arn
+      Source:
+        Type: GITHUB
+        Location: !Ref RepositoryUrl
+        GitCloneDepth: 1
+        BuildSpec: infra/buildspec.yml
+      SourceVersion: !Ref BranchName
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        # 4 vCPU / 7 GB: torch wheels plus the encoder fit comfortably; SMALL also works but is slower.
+        ComputeType: BUILD_GENERAL1_MEDIUM
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:5.0
+        Type: LINUX_CONTAINER
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Name: IMAGE_REPO_URI
+            Value: !GetAtt Repository.RepositoryUri
+          - !If
+            - HasDockerHub
+            - Name: DOCKERHUB_USERNAME
+              Type: SECRETS_MANAGER
+              Value: !Sub '${DockerHubSecretArn}:username'
+            - !Ref AWS::NoValue
+          - !If
+            - HasDockerHub
+            - Name: DOCKERHUB_TOKEN
+              Type: SECRETS_MANAGER
+              Value: !Sub '${DockerHubSecretArn}:token'
+            - !Ref AWS::NoValue
+      Cache:
+        Type: LOCAL
+        Modes: [LOCAL_DOCKER_LAYER_CACHE]
+      TimeoutInMinutes: 45
+      LogsConfig:
+        CloudWatchLogs:
+          Status: ENABLED
+          GroupName: !Ref BuildLogs
+
+Outputs:
+  RepositoryUri:
+    Value: !GetAtt Repository.RepositoryUri
+    Export:
+      Name: !Sub '${ProjectName}-api-repository-uri'
+  RepositoryArn:
+    Value: !GetAtt Repository.Arn
+    Export:
+      Name: !Sub '${ProjectName}-api-repository-arn'
+  BuildProject:
+    Value: !Ref Build
+  StartBuildCommand:
+    Value: !Sub 'aws codebuild start-build --project-name ${Build}'

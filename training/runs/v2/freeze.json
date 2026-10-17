@@ -1,0 +1,27 @@
+{
+  "selected": "e5_tfidf",
+  "data_sha256": "aa6597ed6c5a98685afd6da495bf3a9c016301797674d78db9225ad9cdce3d86",
+  "candidates": {
+    "tfidf_char_raw": {
+      "version": "svo-5e4cd750efac",
+      "manifest_sha256": "c03cc07c59291ab0d17bafa1d038b82b89c1c524add4d93d5aeeca2d62982a07"
+    },
+    "tfidf_char": {
+      "version": "svo-b3ab151e73a2",
+      "manifest_sha256": "2a5fd1f304f205c7e6f0478c83a0b17ab8e69bb3d05a47adaff3769fa84527a3"
+    },
+    "tfidf_union": {
+      "version": "svo-9581e1231119",
+      "manifest_sha256": "10676332aa6f8b9fb8ea910586cc9bc035c318fc48b57f8e972e2be7f6bbd533"
+    },
+    "e5": {
+      "version": "svo-d3dcc38839d5",
+      "manifest_sha256": "e583849ae46a847414d285b8389f0d4d47bb8e3728f49d92d345a6c07ee721f2"
+    },
+    "e5_tfidf": {
+      "version": "svo-e2a46f504b19",
+      "manifest_sha256": "049dc5dd866ceae2a45339220d66cb420b892b6b7659bf30dfeaa6a33a26520c"
+    }
+  },
+  "final_evaluation": "not_run"
+}

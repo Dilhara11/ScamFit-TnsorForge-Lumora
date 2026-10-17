@@ -1,7 +1,7 @@
 import asyncio
 from concurrent.futures import Future
-import fcntl
 import hashlib
+import json
 import logging
 from pathlib import Path
 import queue
@@ -9,25 +9,81 @@ import sqlite3
 import threading
 
 import svo
-from svo.artifacts import verify_bundle
 from svo.model import Runtime
 from svo_api.errors import APIError
 from svo_api.services.monitoring import DurableMonitor
 
+try:
+    import fcntl
+except ImportError:  # Windows development host; the container uses fcntl
+    fcntl = None
+    import msvcrt
+
 LOG = logging.getLogger('svo_api')
 MODULES = ('__init__.py', 'model.py', 'monitor.py', 'preprocessing.py', 'artifacts.py', 'data.py')
+# Servable representations -> extra runtime modules they unpickle. `tfidf_char_raw`
+# is the v2 shortcut ablation (no shared masking) and is never servable.
+REPRESENTATIONS = {
+    'tfidf': (),  # v1
+    'tfidf_char': ('v2.py',), 'tfidf_union': ('v2.py',),
+    'e5': ('v2.py',), 'e5_tfidf': ('v2.py',),
+}
+# Held-out evidence per frozen version (training/RESULTS*.md); shown by GET /api/v1/model.
+EVIDENCE = {
+    'svo-38879254a924': ['Scores are uncalibrated; novelty is lexical, not fraud probability.',
+                         'Held-out high-risk recall: 69.4%; review workload: 100%.',
+                         'Normal replay false-alert windows: 11.1%; no candidate cluster at replay end.'],
+    'svo-e2a46f504b19': ['Scores are Platt-calibrated under a balanced class prior, not deployment prevalence.',
+                         'Held-out macro-F1 0.932; high-risk precision 83.2% (target 90% not met), recall 98.8%.',
+                         'Legitimate false-positive rate 9.8%, mostly formal synthetic notices; real SMS 1.4%.',
+                         'Drift: the held-out shift was not detected; novelty is not a fraud signal.'],
+}
+
+
+def verify_bundle_portable(bundle):
+    """svo.artifacts.verify_bundle, but tolerant of bundles sealed on Windows, whose
+    manifest keys use backslashes. Same version and hash checks; paths stay inside."""
+    bundle = Path(bundle).resolve()
+    manifest = json.loads((bundle / 'manifest.json').read_text())
+    unsigned = {k: v for k, v in manifest.items() if k != 'version'}
+    expected = 'svo-' + hashlib.sha256(json.dumps(unsigned, sort_keys=True).encode()).hexdigest()[:12]
+    if manifest['version'] != expected:
+        raise ValueError('Manifest content/version mismatch')
+    files = {name.replace('\\', '/'): checksum for name, checksum in manifest['files'].items()}
+    if not {'model.joblib', 'decision_config.json', 'model_card.md'} <= files.keys():
+        raise ValueError('Incomplete artifact manifest')
+    for name, checksum in files.items():
+        path = (bundle / name).resolve()
+        if not path.is_relative_to(bundle) or not path.is_file() \
+                or hashlib.sha256(path.read_bytes()).hexdigest() != checksum:
+            raise ValueError('Artifact hash mismatch/missing file')
+    return manifest
 
 
 def verify_runtime(settings):
-    manifest = verify_bundle(settings.model_dir)
-    if manifest['version'] != settings.expected_version or manifest['candidate'] != 'tfidf':
+    manifest = verify_bundle_portable(settings.model_dir)
+    if manifest['version'] != settings.expected_version or manifest['candidate'] not in REPRESENTATIONS:
         raise ValueError('Unexpected model version or representation')
     source = Path(svo.__file__).parent
-    for name in MODULES:
-        digest = hashlib.sha256((source / name).read_bytes()).hexdigest()
+    for name in MODULES + REPRESENTATIONS[manifest['candidate']]:
+        path = source / name
+        digest = hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
         if digest != manifest['source_hashes'].get(f'src/svo/{name}'):
             raise ValueError('Frozen runtime source mismatch')
     return manifest
+
+
+def load_runtime(settings):
+    """Verify artifact and source identity before any joblib load, then load once."""
+    manifest = verify_runtime(settings)
+    return Runtime(settings.model_dir, verify=False), manifest
+
+
+def lock_exclusive(handle):
+    if fcntl is not None:
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    else:
+        msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
 
 
 class Engine:
@@ -51,23 +107,21 @@ class Engine:
     def _run(self):
         lock = None
         try:
-            verify_runtime(self.settings)
             self.settings.db_path.parent.mkdir(parents=True, exist_ok=True)
             lock = open(str(self.settings.db_path) + '.lock', 'a')
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            runtime = Runtime(self.settings.model_dir)
+            lock_exclusive(lock)
+            runtime, manifest = load_runtime(self.settings)
             runtime.predict('Service startup check.')
             self.monitor = DurableMonitor(runtime, self.settings)
             self.metadata = {
                 'model_version': runtime.version, 'reference_version': runtime.version,
-                'representation': 'tfidf', 'scope': runtime.config['scope'],
-                'scores_calibrated': False, 'mode': self.settings.mode,
+                'representation': manifest['candidate'], 'scope': runtime.config['scope'],
+                'scores_calibrated': bool(runtime.config.get('scores_calibrated', False)),
+                'mode': self.settings.mode,
                 'decision_config': runtime.config,
                 'limitations': ['Unreviewed demonstration; not validated fraud protection.',
-                                'Scores are uncalibrated; novelty is lexical, not fraud probability.',
                                 'Low risk is not proof of safety.',
-                                'Held-out high-risk recall: 69.4%; review workload: 100%.',
-                                'Normal replay false-alert windows: 11.1%; no candidate cluster at replay end.'],
+                                *EVIDENCE.get(runtime.version, ['No held-out evidence recorded for this version.'])],
             }
             self.ready = True
             self.started.set_result(None)
